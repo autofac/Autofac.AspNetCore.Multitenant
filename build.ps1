@@ -36,6 +36,7 @@ Get-DotNetProjectDirectory -RootPath $PSScriptRoot | Restore-DependencyPackages
 # Build/package
 Write-Message "Building projects and packages"
 Get-DotNetProjectDirectory -RootPath $PSScriptRoot\src | Invoke-DotNetPack -PackagesPath $packagesPath -VersionSuffix $versionSuffix
+Get-DotNetProjectDirectory -RootPath $PSScriptRoot\samples | Invoke-DotNetBuild
 
 # Test
 Write-Message "Executing unit tests"
