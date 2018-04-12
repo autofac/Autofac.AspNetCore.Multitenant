@@ -58,7 +58,7 @@ namespace Autofac.Integration.AspNetCore.Multitenant
                 throw new InvalidOperationException(Properties.Resources.NoMultitenantContainerAvailable);
             }
 
-            using (var feature = new RequestServicesFeature(container.Resolve<IServiceScopeFactory>()))
+            using (var feature = new RequestServicesFeature(context, container.Resolve<IServiceScopeFactory>()))
             {
                 var existingFeature = context.Features.Get<IServiceProvidersFeature>();
                 try
