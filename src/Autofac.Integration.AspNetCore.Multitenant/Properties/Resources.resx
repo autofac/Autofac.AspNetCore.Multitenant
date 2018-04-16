@@ -120,4 +120,7 @@
   <data name="NoMultitenantContainerAvailable" xml:space="preserve">
     <value>The multitenant container accessor didn't provide a multitenant container. Check your UseAutofacMultitenantRequestServices method call to ensure the container accessor is correctly set up.</value>
   </data>
+  <data name="NoSupportedRequestServicesConstructorFound" xml:space="preserve">
+    <value>Unable to find a RequestServicesFeature constructor that is supported.</value>
+  </data>
 </root>

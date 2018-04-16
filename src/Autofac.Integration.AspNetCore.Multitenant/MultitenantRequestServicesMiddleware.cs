@@ -58,17 +58,21 @@ namespace Autofac.Integration.AspNetCore.Multitenant
                 throw new InvalidOperationException(Properties.Resources.NoMultitenantContainerAvailable);
             }
 
-            using (var feature = new RequestServicesFeature(container.Resolve<IServiceScopeFactory>()))
+            IServiceProvidersFeature existingFeature = null;
+            try
             {
-                var existingFeature = context.Features.Get<IServiceProvidersFeature>();
-                try
+                var feature = RequestServicesFeatureFactory.CreateFeature(context, container.Resolve<IServiceScopeFactory>());
+                existingFeature = context.Features.Get<IServiceProvidersFeature>();
+                context.Features.Set(feature);
+                await this._next.Invoke(context);
+            }
+            finally
+            {
+                context.Features.Set(existingFeature);
+                var disp = existingFeature as IDisposable;
+                if (disp != null)
                 {
-                    context.Features.Set<IServiceProvidersFeature>(feature);
-                    await this._next.Invoke(context);
-                }
-                finally
-                {
-                    context.Features.Set(existingFeature);
+                    disp.Dispose();
                 }
             }
         }
