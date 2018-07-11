@@ -45,7 +45,8 @@ namespace Sandbox
             builder.Populate(services);
             builder.RegisterType<Dependency>()
                 .As<IDependency>()
-                .WithProperty("Id", "base");
+                .WithProperty("Id", "base")
+                .InstancePerLifetimeScope();
             var container = builder.Build();
             var strategy = new QueryStringTenantIdentificationStrategy(container.Resolve<IHttpContextAccessor>(), container.Resolve<ILogger<QueryStringTenantIdentificationStrategy>>());
             var mtc = new MultitenantContainer(strategy, container);
@@ -54,13 +55,15 @@ namespace Sandbox
                 cb => cb
                         .RegisterType<Dependency>()
                         .As<IDependency>()
-                        .WithProperty("Id", "a"));
+                        .WithProperty("Id", "a")
+                        .InstancePerLifetimeScope());
             mtc.ConfigureTenant(
                 "b",
                 cb => cb
                         .RegisterType<Dependency>()
                         .As<IDependency>()
-                        .WithProperty("Id", "b"));
+                        .WithProperty("Id", "b")
+                        .InstancePerLifetimeScope());
             Startup.ApplicationContainer = mtc;
             return new AutofacServiceProvider(mtc);
         }
