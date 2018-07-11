@@ -19,7 +19,6 @@ namespace Sandbox
                 .UseAutofacMultitenantRequestServices(() => Startup.ApplicationContainer)
                 .UseIISIntegration()
                 .UseStartup<Startup>()
-                .UseApplicationInsights()
                 .Build();
 
             host.Run();
