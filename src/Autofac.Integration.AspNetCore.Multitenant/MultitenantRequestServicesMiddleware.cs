@@ -61,19 +61,27 @@ namespace Autofac.Integration.AspNetCore.Multitenant
             IServiceProvidersFeature existingFeature = null;
             try
             {
-                var feature = RequestServicesFeatureFactory.CreateFeature(context, container.Resolve<IServiceScopeFactory>());
+                var autofacFeature = RequestServicesFeatureFactory.CreateFeature(context, container.Resolve<IServiceScopeFactory>());
+                var disp = autofacFeature as IDisposable;
+                if (disp != null)
+                {
+                    context.Response.RegisterForDispose(disp);
+                }
+
                 existingFeature = context.Features.Get<IServiceProvidersFeature>();
-                context.Features.Set(feature);
+                context.Features.Set(autofacFeature);
                 await this._next.Invoke(context);
             }
             finally
             {
+                // In ASP.NET Core 1.x the existing feature will disposed as part of
+                // a using statement; in ASP.NET Core 2.x it is registered directly
+                // with the response for disposal. In either case, we don't have to
+                // do that. We do put back any existing feature, though, since
+                // at this point there may have been some default tenant or base
+                // container level stuff resolved and after this middleware it needs
+                // to be what it was before.
                 context.Features.Set(existingFeature);
-                var disp = existingFeature as IDisposable;
-                if (disp != null)
-                {
-                    disp.Dispose();
-                }
             }
         }
     }

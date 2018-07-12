@@ -19,7 +19,7 @@ namespace Autofac.Integration.AspNetCore.Multitenant.Test
             accessor.HttpContext = new DefaultHttpContext();
             var mtc = CreateContainer();
             var next = new RequestDelegate(ctx => Task.FromResult(0));
-            var context = new DefaultHttpContext();
+            var context = CreateContext();
 
             var mw = new MultitenantRequestServicesMiddleware(next, () => mtc, accessor);
             await mw.Invoke(context);
@@ -31,7 +31,7 @@ namespace Autofac.Integration.AspNetCore.Multitenant.Test
         {
             var accessor = Mock.Of<IHttpContextAccessor>();
             var next = new RequestDelegate(ctx => Task.FromResult(0));
-            var context = new DefaultHttpContext();
+            var context = CreateContext();
 
             var mw = new MultitenantRequestServicesMiddleware(next, () => null, accessor);
             await Assert.ThrowsAsync<InvalidOperationException>(() => mw.Invoke(context));
@@ -51,7 +51,7 @@ namespace Autofac.Integration.AspNetCore.Multitenant.Test
                 Assert.NotSame(originalFeature, currentFeature);
                 return Task.FromResult(0);
             });
-            var context = new DefaultHttpContext();
+            var context = CreateContext();
             context.Features.Set<IServiceProvidersFeature>(originalFeature);
 
             var mw = new MultitenantRequestServicesMiddleware(next, () => mtc, accessor);
@@ -69,7 +69,7 @@ namespace Autofac.Integration.AspNetCore.Multitenant.Test
             var accessor = Mock.Of<IHttpContextAccessor>();
             var mtc = CreateContainer();
             var next = new RequestDelegate(ctx => Task.FromResult(0));
-            var context = new DefaultHttpContext();
+            var context = CreateContext();
 
             var mw = new MultitenantRequestServicesMiddleware(next, () => mtc, accessor);
             await mw.Invoke(context);
@@ -82,6 +82,26 @@ namespace Autofac.Integration.AspNetCore.Multitenant.Test
             builder.Populate(new ServiceCollection());
             var mtc = new MultitenantContainer(Mock.Of<ITenantIdentificationStrategy>(), builder.Build());
             return mtc;
+        }
+
+        private static DefaultHttpContext CreateContext()
+        {
+            var context = new DefaultHttpContext();
+            context.Features.Set<IHttpResponseFeature>(new TestHttpResponseFeature());
+            return context;
+        }
+
+        private class TestHttpResponseFeature : HttpResponseFeature
+        {
+            public override void OnCompleted(Func<object, Task> callback, object state)
+            {
+                // ASP.NET Core 1.1.x throws in the base/default feature.
+            }
+
+            public override void OnStarting(Func<object, Task> callback, object state)
+            {
+                // ASP.NET Core 1.1.x throws in the base/default feature.
+            }
         }
     }
 }
