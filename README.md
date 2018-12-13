@@ -16,8 +16,8 @@ This package provides a different request services middleware that ensures the `
 
 ## Reference
 
-- [Documentation for Autofac.Multitenant](http://autofac.readthedocs.io/en/latest/advanced/multitenant.html)
-- [Documentation for ASP.NET Core Integration](http://autofac.readthedocs.io/en/latest/integration/aspnetcore.html)
+- [Documentation for Autofac.Multitenant](https://autofac.readthedocs.io/en/latest/advanced/multitenant.html)
+- [Documentation for ASP.NET Core Integration](https://autofac.readthedocs.io/en/latest/integration/aspnetcore.html)
 - [Original explanation of why multitenancy failed in ASP.NET Core](https://stackoverflow.com/questions/38940241/autofac-multitenant-in-an-aspnet-core-application-does-not-seem-to-resolve-tenan/38960122#38960122)
 - [NuGet](https://www.nuget.org/packages/Autofac.AspNetCore.Multitenant)
-- [Contributing](http://autofac.readthedocs.io/en/latest/contributors.html)
+- [Contributing](https://autofac.readthedocs.io/en/latest/contributors.html)
