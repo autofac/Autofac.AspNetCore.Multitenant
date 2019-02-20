@@ -11,7 +11,6 @@ namespace Sandbox
         public static void Main(string[] args)
         {
             var host = WebHost.CreateDefaultBuilder(args)
-                .UseKestrel()
 
                 // This enables the request lifetime scope to be properly spawned from
                 // the container rather than be a child of the default tenant scope.
