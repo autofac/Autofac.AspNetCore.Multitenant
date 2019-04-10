@@ -1,6 +1,6 @@
 ﻿// This software is part of the Autofac IoC container
 // Copyright © 2017 Autofac Contributors
-// https://autofac.org
+// http://autofac.org
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -32,26 +32,26 @@ using Microsoft.Extensions.DependencyInjection;
 namespace Microsoft.AspNetCore.Hosting
 {
     /// <summary>
-    /// Extension methods for the <see cref="IWebHostBuilder"/> interface.
+    /// Extension methods for the <see cref="IServiceCollection"/> interface.
     /// </summary>
-    public static class AutofacMultitenantWebHostBuilderExtensions
+    public static class AutofacMultitenantServiceCollectionExtensions
     {
         /// <summary>
         /// Adds the multitenant Autofac request services middleware, which ensures request lifetimes spawn from the container
         /// rather than a pre-resolved tenant lifetime scope. This allows tenant identification to occur at the time of request
         /// scope generation.
         /// </summary>
-        /// <param name="builder">The <see cref="IWebHostBuilder"/> instance being configured.</param>
+        /// <param name="services">The <see cref="IServiceCollection"/> instance being configured.</param>
         /// <param name="multitenantContainerAccessor">A function that will access the multitenant container from which request lifetimes should be generated.</param>
-        /// <returns>The existing <see cref="IWebHostBuilder"/> instance.</returns>
+        /// <returns>The existing <see cref="IServiceCollection"/> instance.</returns>
         /// <exception cref="System.ArgumentNullException">
-        /// Thrown if <paramref name="builder" /> or <paramref name="multitenantContainerAccessor" /> is <see langword="null" />.
+        /// Thrown if <paramref name="services" /> or <paramref name="multitenantContainerAccessor" /> is <see langword="null" />.
         /// </exception>
-        public static IWebHostBuilder UseAutofacMultitenantRequestServices(this IWebHostBuilder builder, Func<MultitenantContainer> multitenantContainerAccessor)
+        public static IServiceCollection AddAutofacMultitenantRequestServices(this IServiceCollection services, Func<MultitenantContainer> multitenantContainerAccessor)
         {
-            if (builder == null)
+            if (services == null)
             {
-                throw new ArgumentNullException(nameof(builder));
+                throw new ArgumentNullException(nameof(services));
             }
 
             if (multitenantContainerAccessor == null)
@@ -59,11 +59,10 @@ namespace Microsoft.AspNetCore.Hosting
                 throw new ArgumentNullException(nameof(multitenantContainerAccessor));
             }
 
-            return builder.ConfigureServices(services =>
-            {
-                services.Insert(0, ServiceDescriptor.Transient<IStartupFilter>(provider => new MultitenantRequestServicesStartupFilter(multitenantContainerAccessor)));
-                services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-            });
+            services.Insert(0, ServiceDescriptor.Transient<IStartupFilter>(provider => new MultitenantRequestServicesStartupFilter(multitenantContainerAccessor)));
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
+            return services;
         }
     }
 }
