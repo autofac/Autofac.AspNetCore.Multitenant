@@ -31,8 +31,8 @@ namespace Sandbox
         public IServiceProvider ConfigureServices(IServiceCollection services)
         {
             services
-                .AddMvc()
                 .AddAutofacMultitenantRequestServices(() => ApplicationContainer)
+                .AddMvc()
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
