@@ -35,8 +35,6 @@ namespace Sandbox
                 .AddMvc()
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             
-            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-
             var builder = new ContainerBuilder();
             builder.Populate(services);
             builder.RegisterType<Dependency>()
