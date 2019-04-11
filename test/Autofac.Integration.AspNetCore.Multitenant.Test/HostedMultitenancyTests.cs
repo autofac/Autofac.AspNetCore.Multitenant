@@ -83,7 +83,7 @@ namespace Autofac.Integration.AspNetCore.Multitenant.Test
                 services
                     .AddAutofacMultitenantRequestServices(() => _applicationContainer)
                     .AddTransient(provider => new WhoAmIDependency("base"))
-                    .AddSingleton<ITenantIdentificationStrategy, TestabletenantIdentificationStrategy>()
+                    .AddSingleton<ITenantIdentificationStrategy, TestableTenantIdentificationStrategy>()
                     .AddSingleton<ITenantAccessor, TenantAccessorDependency>()
                     .AddRouting();
 
@@ -194,11 +194,11 @@ namespace Autofac.Integration.AspNetCore.Multitenant.Test
                 }
             }
 
-            private sealed class TestabletenantIdentificationStrategy : ITenantIdentificationStrategy
+            private sealed class TestableTenantIdentificationStrategy : ITenantIdentificationStrategy
             {
                 private readonly IHttpContextAccessor _httpContextAccessor;
 
-                public TestabletenantIdentificationStrategy(IHttpContextAccessor httpContextAccessor)
+                public TestableTenantIdentificationStrategy(IHttpContextAccessor httpContextAccessor)
                 {
                     _httpContextAccessor = httpContextAccessor;
                 }
