@@ -24,10 +24,7 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 
 using System;
-using Autofac.Integration.AspNetCore.Multitenant;
 using Autofac.Multitenant;
-using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace Microsoft.AspNetCore.Hosting
 {
@@ -61,8 +58,7 @@ namespace Microsoft.AspNetCore.Hosting
 
             return builder.ConfigureServices(services =>
             {
-                services.Insert(0, ServiceDescriptor.Transient<IStartupFilter>(provider => new MultitenantRequestServicesStartupFilter(multitenantContainerAccessor)));
-                services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+                services.AddAutofacMultitenantRequestServices(multitenantContainerAccessor);
             });
         }
     }
