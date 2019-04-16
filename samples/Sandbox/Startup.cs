@@ -1,9 +1,9 @@
 ﻿using System;
-using System.Linq;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using Autofac.Multitenant;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -19,7 +19,7 @@ namespace Sandbox
             this.Configuration = configuration;
         }
 
-        public static MultitenantContainer ApplicationContainer { get; set; }
+        private MultitenantContainer ApplicationContainer { get; set; }
 
         public IConfiguration Configuration { get; }
 
@@ -31,10 +31,10 @@ namespace Sandbox
         public IServiceProvider ConfigureServices(IServiceCollection services)
         {
             services
+                .AddAutofacMultitenantRequestServices(() => ApplicationContainer)
                 .AddMvc()
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
-            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-
+            
             var builder = new ContainerBuilder();
             builder.Populate(services);
             builder.RegisterType<Dependency>()
@@ -58,7 +58,7 @@ namespace Sandbox
                         .As<IDependency>()
                         .WithProperty("Id", "b")
                         .InstancePerLifetimeScope());
-            Startup.ApplicationContainer = mtc;
+            ApplicationContainer = mtc;
             return new AutofacServiceProvider(mtc);
         }
     }
