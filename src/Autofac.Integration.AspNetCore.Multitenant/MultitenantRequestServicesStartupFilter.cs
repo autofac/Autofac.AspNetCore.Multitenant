@@ -15,23 +15,6 @@ namespace Autofac.Integration.AspNetCore.Multitenant
     internal class MultitenantRequestServicesStartupFilter : IStartupFilter
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="MultitenantRequestServicesStartupFilter"/> class.
-        /// </summary>
-        /// <param name="multitenantContainerAccessor">A function that will access the multitenant container from which request lifetimes should be generated.</param>
-        public MultitenantRequestServicesStartupFilter(Func<MultitenantContainer> multitenantContainerAccessor)
-        {
-            this.MultitenantContainerAccessor = multitenantContainerAccessor;
-        }
-
-        /// <summary>
-        /// Gets the multitenant container accessor.
-        /// </summary>
-        /// <value>
-        /// A function that will access the multitenant container from which request lifetimes should be generated.
-        /// </value>
-        public Func<MultitenantContainer> MultitenantContainerAccessor { get; private set; }
-
-        /// <summary>
         /// Adds the multitenant request services middleware to the app pipeline.
         /// </summary>
         /// <param name="next">
@@ -44,7 +27,7 @@ namespace Autofac.Integration.AspNetCore.Multitenant
         {
             return builder =>
             {
-                builder.UseMiddleware<MultitenantRequestServicesMiddleware>(this.MultitenantContainerAccessor);
+                builder.UseMiddleware<MultitenantRequestServicesMiddleware>();
                 next(builder);
             };
         }

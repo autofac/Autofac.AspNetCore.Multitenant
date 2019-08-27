@@ -1,5 +1,5 @@
 ﻿// This software is part of the Autofac IoC container
-// Copyright © 2017 Autofac Contributors
+// Copyright © 2019 Autofac Contributors
 // https://autofac.org
 //
 // Permission is hereby granted, free of charge, to any person
@@ -24,34 +24,24 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 
 using System;
-using Autofac;
+using Autofac.Extensions.DependencyInjection;
 using Autofac.Multitenant;
 
-namespace Microsoft.AspNetCore.Hosting
+namespace Autofac.Integration.AspNetCore.Multitenant
 {
     /// <summary>
-    /// Extension methods for the <see cref="IWebHostBuilder"/> interface.
+    /// Autofac implementation of the ASP.NET Core <see cref="IServiceProvider"/> for a <see cref="MultitenantContainer" />.
     /// </summary>
-    public static class AutofacMultitenantWebHostBuilderExtensions
+    /// <seealso cref="IServiceProvider" />
+    public sealed class AutofacMultitenantServiceProvider : AutofacServiceProvider
     {
         /// <summary>
-        /// Adds the multitenant Autofac request services middleware, which ensures request lifetimes spawn from the container
-        /// rather than a pre-resolved tenant lifetime scope. This allows tenant identification to occur at the time of request
-        /// scope generation.
+        /// Initializes a new instance of the <see cref="AutofacMultitenantServiceProvider"/> class.
         /// </summary>
-        /// <param name="builder">The <see cref="IWebHostBuilder"/> instance being configured.</param>
-        /// <returns>The existing <see cref="IWebHostBuilder"/> instance.</returns>
-        /// <exception cref="System.ArgumentNullException">
-        /// Thrown if <paramref name="builder" /> is <see langword="null" />.
-        /// </exception>
-        public static IWebHostBuilder UseAutofacMultitenantRequestServices(this IWebHostBuilder builder)
+        /// <param name="lifetimeScope">The <see cref="ILifetimeScope"/> in form of a <see cref="MultitenantContainer"/>.</param>
+        public AutofacMultitenantServiceProvider(ILifetimeScope lifetimeScope)
+            : base(lifetimeScope)
         {
-            if (builder == null) throw new ArgumentNullException(nameof(builder));
-
-            return builder.ConfigureServices(services =>
-            {
-                services.AddAutofacMultitenantRequestServices();
-            });
         }
     }
 }

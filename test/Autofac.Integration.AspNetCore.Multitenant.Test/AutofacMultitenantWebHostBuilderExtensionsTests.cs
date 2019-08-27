@@ -20,8 +20,7 @@ namespace Autofac.Integration.AspNetCore.Multitenant.Test
                 .Setup(x => x.ConfigureServices(It.IsAny<Action<IServiceCollection>>()))
                 .Callback<Action<IServiceCollection>>(s => s(services));
 
-            var mtc = new MultitenantContainer(Mock.Of<ITenantIdentificationStrategy>(), new ContainerBuilder().Build());
-            webHostBuilder.Object.UseAutofacMultitenantRequestServices(() => mtc);
+            webHostBuilder.Object.UseAutofacMultitenantRequestServices();
 
             var serviceProvider = services.BuildServiceProvider();
             var accessor = serviceProvider.GetService<IHttpContextAccessor>();
@@ -39,8 +38,7 @@ namespace Autofac.Integration.AspNetCore.Multitenant.Test
                 .Setup(x => x.ConfigureServices(It.IsAny<Action<IServiceCollection>>()))
                 .Callback<Action<IServiceCollection>>(s => s(services));
 
-            var mtc = new MultitenantContainer(Mock.Of<ITenantIdentificationStrategy>(), new ContainerBuilder().Build());
-            webHostBuilder.Object.UseAutofacMultitenantRequestServices(() => mtc);
+            webHostBuilder.Object.UseAutofacMultitenantRequestServices();
 
             var serviceProvider = services.BuildServiceProvider();
             var filter = serviceProvider.GetService<IStartupFilter>();
@@ -52,14 +50,7 @@ namespace Autofac.Integration.AspNetCore.Multitenant.Test
         public void UseAutofacMultitenantRequestServices_NullBuilder()
         {
             var mtc = new MultitenantContainer(Mock.Of<ITenantIdentificationStrategy>(), new ContainerBuilder().Build());
-            Assert.Throws<ArgumentNullException>(() => AutofacMultitenantWebHostBuilderExtensions.UseAutofacMultitenantRequestServices(null, () => mtc));
-        }
-
-        [Fact]
-        public void UseAutofacMultitenantRequestServices_NullContainerAccessor()
-        {
-            var builder = Mock.Of<IWebHostBuilder>();
-            Assert.Throws<ArgumentNullException>(() => AutofacMultitenantWebHostBuilderExtensions.UseAutofacMultitenantRequestServices(builder, null));
+            Assert.Throws<ArgumentNullException>(() => AutofacMultitenantWebHostBuilderExtensions.UseAutofacMultitenantRequestServices(null));
         }
     }
 }
