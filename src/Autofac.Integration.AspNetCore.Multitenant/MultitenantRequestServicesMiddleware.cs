@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Autofac.Extensions.DependencyInjection;
 using Autofac.Multitenant;
-using Microsoft.AspNetCore.Hosting.Internal;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.Extensions.DependencyInjection;
@@ -16,21 +16,21 @@ namespace Autofac.Integration.AspNetCore.Multitenant
     {
         private readonly IHttpContextAccessor _contextAccessor;
 
-        private readonly Func<MultitenantContainer> _multitenantContainerAccessor;
-
         private readonly RequestDelegate _next;
+
+        private readonly IServiceProvider _serviceProvider;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MultitenantRequestServicesMiddleware"/> class.
         /// </summary>
         /// <param name="next">The next step in the request pipeline.</param>
-        /// <param name="multitenantContainerAccessor">A function that will access the multitenant container from which request lifetimes should be generated.</param>
         /// <param name="contextAccessor">The <see cref="IHttpContextAccessor"/> to set up with the current request context.</param>
-        public MultitenantRequestServicesMiddleware(RequestDelegate next, Func<MultitenantContainer> multitenantContainerAccessor, IHttpContextAccessor contextAccessor)
+        /// <param name="serviceProvider">The <see cref="IServiceProvider"/> to retrieve the <see cref="MultitenantContainer"/> registered through <see cref="AutofacMultitenantServiceProvider"/>.</param>
+        public MultitenantRequestServicesMiddleware(RequestDelegate next, IHttpContextAccessor contextAccessor, IServiceProvider serviceProvider)
         {
             this._next = next;
-            this._multitenantContainerAccessor = multitenantContainerAccessor;
             this._contextAccessor = contextAccessor;
+            this._serviceProvider = serviceProvider;
         }
 
         /// <summary>
@@ -52,8 +52,7 @@ namespace Autofac.Integration.AspNetCore.Multitenant
                 this._contextAccessor.HttpContext = context;
             }
 
-            var container = this._multitenantContainerAccessor();
-            if (container == null)
+            if (!(this._serviceProvider.GetAutofacRoot() is MultitenantContainer container))
             {
                 throw new InvalidOperationException(Properties.Resources.NoMultitenantContainerAvailable);
             }
@@ -62,14 +61,15 @@ namespace Autofac.Integration.AspNetCore.Multitenant
             try
             {
                 var autofacFeature = RequestServicesFeatureFactory.CreateFeature(context, container.Resolve<IServiceScopeFactory>());
-                var disp = autofacFeature as IDisposable;
-                if (disp != null)
+
+                if (autofacFeature is IDisposable disp)
                 {
                     context.Response.RegisterForDispose(disp);
                 }
 
                 existingFeature = context.Features.Get<IServiceProvidersFeature>();
                 context.Features.Set(autofacFeature);
+
                 await this._next.Invoke(context);
             }
             finally

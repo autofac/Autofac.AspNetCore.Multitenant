@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Reflection;
-using Microsoft.AspNetCore.Hosting.Internal;
+using Autofac.Integration.AspNetCore.Multitenant.Properties;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.Extensions.DependencyInjection;
+#if NETSTANDARD2_0
+using Microsoft.AspNetCore.Hosting.Internal;
+#endif
 
 namespace Autofac.Integration.AspNetCore.Multitenant
 {
@@ -50,7 +52,7 @@ namespace Autofac.Integration.AspNetCore.Multitenant
                         factoryParameter)
                         .Compile();
                 default:
-                    throw new NotSupportedException(Properties.Resources.NoSupportedRequestServicesConstructorFound);
+                    throw new NotSupportedException(Resources.NoSupportedRequestServicesConstructorFound);
             }
         }
     }

@@ -21,7 +21,7 @@ namespace Autofac.Integration.AspNetCore.Multitenant.Test
             var next = new RequestDelegate(ctx => Task.FromResult(0));
             var context = CreateContext();
 
-            var mw = new MultitenantRequestServicesMiddleware(next, () => mtc, accessor);
+            var mw = new MultitenantRequestServicesMiddleware(next, accessor, new AutofacMultitenantServiceProvider(mtc));
             await mw.Invoke(context);
             Assert.NotSame(context, accessor.HttpContext);
         }
@@ -33,7 +33,7 @@ namespace Autofac.Integration.AspNetCore.Multitenant.Test
             var next = new RequestDelegate(ctx => Task.FromResult(0));
             var context = CreateContext();
 
-            var mw = new MultitenantRequestServicesMiddleware(next, () => null, accessor);
+            var mw = new MultitenantRequestServicesMiddleware(next, accessor, new AutofacServiceProvider(new ContainerBuilder().Build()));
             await Assert.ThrowsAsync<InvalidOperationException>(() => mw.Invoke(context));
         }
 
@@ -54,7 +54,7 @@ namespace Autofac.Integration.AspNetCore.Multitenant.Test
             var context = CreateContext();
             context.Features.Set<IServiceProvidersFeature>(originalFeature);
 
-            var mw = new MultitenantRequestServicesMiddleware(next, () => mtc, accessor);
+            var mw = new MultitenantRequestServicesMiddleware(next, accessor, new AutofacMultitenantServiceProvider(mtc));
             await mw.Invoke(context);
 
             // The original request services feature should have been replaced
@@ -71,7 +71,7 @@ namespace Autofac.Integration.AspNetCore.Multitenant.Test
             var next = new RequestDelegate(ctx => Task.FromResult(0));
             var context = CreateContext();
 
-            var mw = new MultitenantRequestServicesMiddleware(next, () => mtc, accessor);
+            var mw = new MultitenantRequestServicesMiddleware(next, accessor, new AutofacMultitenantServiceProvider(mtc));
             await mw.Invoke(context);
             Assert.Same(context, accessor.HttpContext);
         }
