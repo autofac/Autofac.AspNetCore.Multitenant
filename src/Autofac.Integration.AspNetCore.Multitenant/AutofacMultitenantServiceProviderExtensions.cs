@@ -1,6 +1,6 @@
-﻿// This software is part of the Autofac IoC container
+// This software is part of the Autofac IoC container
 // Copyright © 2019 Autofac Contributors
-// https://autofac.org
+// http://autofac.org
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -25,23 +25,32 @@
 
 using System;
 using Autofac.Extensions.DependencyInjection;
+using Autofac.Integration.AspNetCore.Multitenant.Properties;
 using Autofac.Multitenant;
 
 namespace Autofac.Integration.AspNetCore.Multitenant
 {
     /// <summary>
-    /// Autofac implementation of the ASP.NET Core <see cref="IServiceProvider"/> for a <see cref="MultitenantContainer" />.
+    /// Extension methods for use with the <see cref="AutofacMultitenantServiceProvider"/>.
     /// </summary>
-    /// <seealso cref="IServiceProvider" />
-    public sealed class AutofacMultitenantServiceProvider : AutofacServiceProvider
+    public static class AutofacMultitenantServiceProviderExtensions
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="AutofacMultitenantServiceProvider"/> class.
+        /// Tries to cast the instance of <see cref="MultitenantContainer"/> from <see cref="AutofacMultitenantServiceProvider"/> when possible.
         /// </summary>
-        /// <param name="multitenantContainer">The <see cref="MultitenantContainer"/>.</param>
-        public AutofacMultitenantServiceProvider(MultitenantContainer multitenantContainer)
-            : base(multitenantContainer)
+        /// <param name="serviceProvider">The instance of <see cref="IServiceProvider"/>.</param>
+        /// <returns>Returns the instance of <see cref="MultitenantContainer"/> exposed by <see cref="AutofacMultitenantServiceProvider"/> when it can be casted down from <see cref="ILifetimeScope"/>.</returns>
+        /// <exception cref="InvalidOperationException">
+        /// Thrown if <paramref name="serviceProvider" /> can't be casted to <see cref="MultitenantContainer"/>.
+        /// </exception>.
+        public static MultitenantContainer GetAutofacMultitenantRoot(this IServiceProvider serviceProvider)
         {
+            if (!(serviceProvider.GetAutofacRoot() is MultitenantContainer multitenantContainer))
+            {
+                throw new InvalidOperationException(Resources.NoMultitenantContainerAvailable);
+            }
+
+            return multitenantContainer;
         }
     }
 }
