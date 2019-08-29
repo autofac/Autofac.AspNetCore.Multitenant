@@ -52,10 +52,8 @@ namespace Autofac.Integration.AspNetCore.Multitenant
                 this._contextAccessor.HttpContext = context;
             }
 
-            if (!(this._serviceProvider.GetAutofacRoot() is MultitenantContainer container))
-            {
-                throw new InvalidOperationException(Properties.Resources.NoMultitenantContainerAvailable);
-            }
+            // this throws an invalid-operation-exception, when IServiceProvider can't be casted down to ILifetimeScope or MultitenantContainer
+            var container = this._serviceProvider.GetAutofacMultitenantRoot();
 
             IServiceProvidersFeature existingFeature = null;
             try
