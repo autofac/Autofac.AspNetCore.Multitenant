@@ -2,10 +2,11 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.0</TargetFramework>
+    <RootNamespace>Sandbox</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Autofac.Integration.AspNetCore.Multitenant\Autofac.Integration.AspNetCore.Multitenant.csproj" />
+    <ProjectReference Include="..\Sandbox.Shared\Sandbox.Shared.csproj" />
   </ItemGroup>
 
 </Project>

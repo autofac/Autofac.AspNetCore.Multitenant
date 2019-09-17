@@ -1,8 +1,7 @@
-﻿using Microsoft.Extensions.Logging;
-using System;
-using System.Linq;
+﻿using System;
+using Microsoft.Extensions.Logging;
 
-namespace Sandbox
+namespace Sandbox.Shared
 {
     public class Dependency : IDependency, IDisposable
     {

@@ -1,11 +1,9 @@
-﻿using System;
-using System.Linq;
-using Autofac.Multitenant;
+﻿using Autofac.Multitenant;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Primitives;
 
-namespace Sandbox
+namespace Sandbox.Shared
 {
     public class QueryStringTenantIdentificationStrategy : ITenantIdentificationStrategy
     {

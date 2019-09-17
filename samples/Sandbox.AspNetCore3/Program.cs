@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Hosting;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Hosting;
+using Sandbox.Shared;
 
 namespace Sandbox
 {
@@ -9,7 +10,7 @@ namespace Sandbox
         public static async Task Main(string[] args)
         {
             var host = Host.CreateDefaultBuilder(args)
-                .UseServiceProviderFactory(new AutofacMultitenantServiceProviderFactory(Startup.ConfigureMultitenantContainer))
+                .UseServiceProviderFactory(new AutofacMultitenantServiceProviderFactory(MultitenantContainerSetup.ConfigureMultitenantContainer))
                 .ConfigureWebHostDefaults(webHostBuilder => webHostBuilder.UseStartup<Startup>())
                 .Build();
 
