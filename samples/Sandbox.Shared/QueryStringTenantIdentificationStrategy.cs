@@ -39,8 +39,7 @@ namespace Sandbox.Shared
                 return tenantId != null;
             }
 
-            StringValues tenantValues;
-            if (context.Request.Query.TryGetValue("tenant", out tenantValues))
+            if (context.Request.Query.TryGetValue("tenant", out StringValues tenantValues))
             {
                 tenantId = tenantValues[0];
                 context.Items["_tenantId"] = tenantId;

@@ -39,10 +39,6 @@ namespace Autofac.Integration.AspNetCore.Multitenant.Test
                     .AddRouting();
             }
 
-            public void ConfigureContainer(ContainerBuilder builder)
-            {
-            }
-
             public static MultitenantContainer CreateMultitenantContainer(IContainer container)
             {
                 var strategy = container.Resolve<ITenantIdentificationStrategy>();
