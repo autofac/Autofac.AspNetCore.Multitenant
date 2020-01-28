@@ -57,7 +57,7 @@ function Install-DotNetCli
     $Version = "Latest"
   )
 
-  if ((Get-Command "dotnet.exe" -ErrorAction SilentlyContinue) -ne $null)
+  if ($null -ne (Get-Command "dotnet" -ErrorAction SilentlyContinue))
   {
     $installedVersion = dotnet --version
     if ($installedVersion -eq $Version)
@@ -147,7 +147,7 @@ function Invoke-DotNetPack
     [Parameter(Mandatory=$True, ValueFromPipeline=$False)]
     [AllowEmptyString()]
     [string]
-    $VersionSuffix = ""
+    $VersionSuffix
   )
   Begin
   {
