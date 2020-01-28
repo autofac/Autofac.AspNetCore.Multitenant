@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Net;
 using System.Net.Http;
 using Autofac.Multitenant;
 using Microsoft.AspNetCore.Builder;
@@ -37,6 +38,13 @@ namespace Autofac.Integration.AspNetCore.Multitenant.Test
                     .AddSingleton<ITenantAccessor, TenantAccessorDependency>()
                     .AddSingleton<ITenantIdentificationStrategy, TestableTenantIdentificationStrategy>()
                     .AddRouting();
+            }
+
+            [SuppressMessage("IDE0060", "IDE0060", Justification = "Method is required so container will be built.")]
+            public void ConfigureContainer(ContainerBuilder builder)
+            {
+                // You must have ConfigureContainer here, even if it's
+                // not used, or the Autofac container won't be built.
             }
 
             public static MultitenantContainer CreateMultitenantContainer(IContainer container)
