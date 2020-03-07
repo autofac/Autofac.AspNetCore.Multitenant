@@ -37,7 +37,7 @@ namespace Autofac.Integration.AspNetCore.Multitenant.Test
             Assert.Equal("base", await response.Content.ReadAsStringAsync());
         }
 
-        [Theory(Skip = "Issue #22: Delegate registrations aren't properly using request scopes.")]
+        [Theory]
         [InlineData("")]
         [InlineData("a")]
         [InlineData("b")]

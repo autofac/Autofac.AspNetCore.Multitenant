@@ -42,15 +42,16 @@ namespace Autofac.Integration.AspNetCore.Multitenant
         /// <returns>Returns the instance of <see cref="MultitenantContainer"/> exposed by <see cref="AutofacMultitenantServiceProvider"/> when it can be casted down from <see cref="ILifetimeScope"/>.</returns>
         /// <exception cref="InvalidOperationException">
         /// Thrown if <paramref name="serviceProvider" /> can't be casted to <see cref="MultitenantContainer"/>.
-        /// </exception>.
+        /// </exception>
+        [Obsolete("This function will be removed in a future release. Please use IServiceProvider.GetRequiredService<MultitenantContainer>() instead.")]
         public static MultitenantContainer GetAutofacMultitenantRoot(this IServiceProvider serviceProvider)
         {
-            if (!(serviceProvider.GetAutofacRoot() is MultitenantContainer multitenantContainer))
-            {
-                throw new InvalidOperationException(Resources.NoMultitenantContainerAvailable);
-            }
+            var root = serviceProvider.GetAutofacRoot();
 
-            return multitenantContainer;
+            if (!root.IsRegistered<MultitenantContainer>())
+                throw new InvalidOperationException(Resources.NoMultitenantContainerAvailable);
+
+            return root.Resolve<MultitenantContainer>();
         }
     }
 }

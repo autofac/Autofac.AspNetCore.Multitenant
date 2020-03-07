@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Autofac.Extensions.DependencyInjection;
 using Autofac.Multitenant;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.Extensions.DependencyInjection;
@@ -15,22 +15,20 @@ namespace Autofac.Integration.AspNetCore.Multitenant
     internal class MultitenantRequestServicesMiddleware
     {
         private readonly IHttpContextAccessor _contextAccessor;
-
         private readonly RequestDelegate _next;
-
-        private readonly IServiceProvider _serviceProvider;
+        private readonly MultitenantContainer _multitenantContainer;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MultitenantRequestServicesMiddleware"/> class.
         /// </summary>
         /// <param name="next">The next step in the request pipeline.</param>
         /// <param name="contextAccessor">The <see cref="IHttpContextAccessor"/> to set up with the current request context.</param>
-        /// <param name="serviceProvider">The <see cref="IServiceProvider"/> to retrieve the <see cref="MultitenantContainer"/> registered through <see cref="AutofacMultitenantServiceProvider"/>.</param>
-        public MultitenantRequestServicesMiddleware(RequestDelegate next, IHttpContextAccessor contextAccessor, IServiceProvider serviceProvider)
+        /// <param name="multitenantContainer">The <see cref="MultitenantContainer"/> registered through <see cref="AutofacMultitenantServiceProviderFactory"/>.</param>
+        public MultitenantRequestServicesMiddleware(RequestDelegate next, IHttpContextAccessor contextAccessor, MultitenantContainer multitenantContainer)
         {
             this._next = next;
             this._contextAccessor = contextAccessor;
-            this._serviceProvider = serviceProvider;
+            this._multitenantContainer = multitenantContainer;
         }
 
         /// <summary>
@@ -52,13 +50,10 @@ namespace Autofac.Integration.AspNetCore.Multitenant
                 this._contextAccessor.HttpContext = context;
             }
 
-            // this throws an invalid-operation-exception, when IServiceProvider can't be casted down to ILifetimeScope or MultitenantContainer
-            var container = this._serviceProvider.GetAutofacMultitenantRoot();
-
             IServiceProvidersFeature existingFeature = null;
             try
             {
-                var autofacFeature = RequestServicesFeatureFactory.CreateFeature(context, container.Resolve<IServiceScopeFactory>());
+                var autofacFeature = RequestServicesFeatureFactory.CreateFeature(context, _multitenantContainer.Resolve<IServiceScopeFactory>());
 
                 if (autofacFeature is IDisposable disp)
                 {

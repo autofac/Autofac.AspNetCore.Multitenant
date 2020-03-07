@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Autofac.Extensions.DependencyInjection;
 using Autofac.Multitenant;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.Extensions.DependencyInjection;
@@ -17,31 +18,20 @@ namespace Autofac.Integration.AspNetCore.Multitenant.Test
         {
             var accessor = Mock.Of<IHttpContextAccessor>();
             accessor.HttpContext = new DefaultHttpContext();
-            var mtc = CreateContainer();
             var next = new RequestDelegate(ctx => Task.FromResult(0));
             var context = CreateContext();
 
-            var mw = new MultitenantRequestServicesMiddleware(next, accessor, new AutofacMultitenantServiceProvider(mtc));
+            var mtc = CreateServiceProvider().GetRequiredService<MultitenantContainer>();
+
+            var mw = new MultitenantRequestServicesMiddleware(next, accessor, mtc);
             await mw.Invoke(context);
             Assert.NotSame(context, accessor.HttpContext);
-        }
-
-        [Fact]
-        public async Task Invoke_NoMultitenantContainer()
-        {
-            var accessor = Mock.Of<IHttpContextAccessor>();
-            var next = new RequestDelegate(ctx => Task.FromResult(0));
-            var context = CreateContext();
-
-            var mw = new MultitenantRequestServicesMiddleware(next, accessor, new AutofacServiceProvider(new ContainerBuilder().Build()));
-            await Assert.ThrowsAsync<InvalidOperationException>(() => mw.Invoke(context));
         }
 
         [Fact]
         public async Task Invoke_ReplacesRequestServices()
         {
             var accessor = Mock.Of<IHttpContextAccessor>();
-            var mtc = CreateContainer();
             var originalFeature = Mock.Of<IServiceProvidersFeature>();
             var next = new RequestDelegate(ctx =>
             {
@@ -53,8 +43,9 @@ namespace Autofac.Integration.AspNetCore.Multitenant.Test
             });
             var context = CreateContext();
             context.Features.Set<IServiceProvidersFeature>(originalFeature);
+            var mtc = CreateServiceProvider().GetRequiredService<MultitenantContainer>();
+            var mw = new MultitenantRequestServicesMiddleware(next, accessor, mtc);
 
-            var mw = new MultitenantRequestServicesMiddleware(next, accessor, new AutofacMultitenantServiceProvider(mtc));
             await mw.Invoke(context);
 
             // The original request services feature should have been replaced
@@ -67,20 +58,29 @@ namespace Autofac.Integration.AspNetCore.Multitenant.Test
         public async Task Invoke_SetsHttpContextOnAccessor()
         {
             var accessor = Mock.Of<IHttpContextAccessor>();
-            var mtc = CreateContainer();
             var next = new RequestDelegate(ctx => Task.FromResult(0));
             var context = CreateContext();
+            var mtc = CreateServiceProvider().GetRequiredService<MultitenantContainer>();
+            var mw = new MultitenantRequestServicesMiddleware(next, accessor, mtc);
 
-            var mw = new MultitenantRequestServicesMiddleware(next, accessor, new AutofacMultitenantServiceProvider(mtc));
             await mw.Invoke(context);
+
             Assert.Same(context, accessor.HttpContext);
         }
 
-        private static MultitenantContainer CreateContainer()
+        private static IServiceProvider CreateServiceProvider()
         {
-            var builder = new ContainerBuilder();
-            builder.Populate(new ServiceCollection());
-            var mtc = new MultitenantContainer(Mock.Of<ITenantIdentificationStrategy>(), builder.Build());
+            var factory = new AutofacMultitenantServiceProviderFactory(CreateContainer);
+            var containerBuilder = new ContainerBuilder();
+            var services = new ServiceCollection();
+            containerBuilder.Populate(services);
+            factory.CreateBuilder(services);
+            return factory.CreateServiceProvider(containerBuilder);
+        }
+
+        private static MultitenantContainer CreateContainer(IContainer container)
+        {
+            var mtc = new MultitenantContainer(Mock.Of<ITenantIdentificationStrategy>(), container);
             return mtc;
         }
 
