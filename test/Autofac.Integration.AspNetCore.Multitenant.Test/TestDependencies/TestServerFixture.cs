@@ -38,7 +38,9 @@ namespace Autofac.Integration.AspNetCore.Multitenant.Test.TestDependencies
                     .AddSingleton<ITenantIdentificationStrategy, TestableTenantIdentificationStrategy>()
                     .AddRouting()
 
-                    // Issue #22: Delegate registrations don't properly use the request services scope.
+                    // Issue #22: Delegate registrations that access the IServiceProvider don't
+                    // attach to the request services scoped provider; instead they attach to the tenant
+                    // scoped provider and act like singletons for the tenant.
                     // This sort-of-odd registration chain helps test that.
                     .AddScoped<IScopedDependency>(provider => provider.GetRequiredService<ScopedDependency>())
                     .AddScoped<ScopedDependency>();
