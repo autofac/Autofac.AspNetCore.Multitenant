@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace Sandbox.Shared.Controllers
+namespace Sandbox.Shared
 {
     [ApiController]
     [Route("api/[controller]")]
