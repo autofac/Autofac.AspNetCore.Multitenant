@@ -37,6 +37,22 @@ namespace Autofac.Integration.AspNetCore.Multitenant.Test
             Assert.Equal("base", await response.Content.ReadAsStringAsync());
         }
 
+        [Theory(Skip = "Issue #22: Delegate registrations aren't properly using request scopes.")]
+        [InlineData("")]
+        [InlineData("a")]
+        [InlineData("b")]
+        public async Task CallScopedEndpoint_TwoCallsFuncResolveCalledTwice_DependencyIdNotEqual(string tenantQuery)
+        {
+            var client = this._testServerFixture.GetApplicationClient();
+
+            var resultA = await client.GetAsync($"scoped-endpoint?tenant={tenantQuery}");
+            var resultB = await client.GetAsync($"scoped-endpoint?tenant={tenantQuery}");
+
+            Assert.Equal(HttpStatusCode.OK, resultA.StatusCode);
+            Assert.Equal(HttpStatusCode.OK, resultB.StatusCode);
+            Assert.NotEqual(await resultA.Content.ReadAsStringAsync(), await resultB.Content.ReadAsStringAsync());
+        }
+
         [Theory]
         [InlineData("a", "a")]
         [InlineData("b", "b")]

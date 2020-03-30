@@ -36,7 +36,12 @@ namespace Autofac.Integration.AspNetCore.Multitenant.Test.TestDependencies
                     .AddTransient(provider => new WhoAmIDependency("base"))
                     .AddSingleton<ITenantAccessor, TenantAccessorDependency>()
                     .AddSingleton<ITenantIdentificationStrategy, TestableTenantIdentificationStrategy>()
-                    .AddRouting();
+                    .AddRouting()
+
+                    // Issue #22: Delegate registrations don't properly use the request services scope.
+                    // This sort-of-odd registration chain helps test that.
+                    .AddScoped<IScopedDependency>(provider => provider.GetRequiredService<ScopedDependency>())
+                    .AddScoped<ScopedDependency>();
             }
 
             [SuppressMessage("IDE0060", "IDE0060", Justification = "Method is required so container will be built.")]
@@ -84,6 +89,12 @@ namespace Autofac.Integration.AspNetCore.Multitenant.Test.TestDependencies
                         Assert.Null(tenantId);
 
                         await context.Response.WriteAsync(whoAmI.Id);
+                    });
+
+                    routeBuilder.MapGet("scoped-endpoint", async context =>
+                    {
+                        var scopedDep = context.RequestServices.GetRequiredService<IScopedDependency>();
+                        await context.Response.WriteAsync(scopedDep.Id.ToString());
                     });
 
                     routeBuilder.MapGet("tenant-endpoint", async context =>
