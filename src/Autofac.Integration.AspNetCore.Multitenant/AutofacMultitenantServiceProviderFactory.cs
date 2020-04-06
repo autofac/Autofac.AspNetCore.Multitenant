@@ -83,19 +83,17 @@ namespace Microsoft.AspNetCore.Hosting
         {
             if (containerBuilder == null) throw new ArgumentNullException(nameof(containerBuilder));
 
-            AutofacMultitenantServiceProvider provider = null;
+            MultitenantContainer multitenantContainer = null;
 
-            containerBuilder.Register(_ => provider)
-                .As<IServiceProvider>()
-                .ExternallyOwned();
+            containerBuilder.Register(_ => multitenantContainer)
+              .AsSelf()
+              .ExternallyOwned();
 
-            var multitenantContainer = this._multitenantContainerAccessor(containerBuilder.Build());
+            multitenantContainer = this._multitenantContainerAccessor(containerBuilder.Build());
 
             if (multitenantContainer == null) throw new InvalidOperationException(Resources.NoMultitenantContainerAvailable);
 
-            provider = new AutofacMultitenantServiceProvider(multitenantContainer);
-
-            return provider;
+            return new AutofacMultitenantServiceProvider(multitenantContainer);
         }
     }
 }
