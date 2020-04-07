@@ -15,8 +15,9 @@ namespace Autofac.Integration.AspNetCore.Multitenant.Test
             var factory = new AutofacMultitenantServiceProviderFactory(CreateMultitenantContainer);
             factory.CreateBuilder(new ServiceCollection());
             var serviceProvider = factory.CreateServiceProvider(new ContainerBuilder());
-
+#pragma warning disable 618
             Assert.NotNull(serviceProvider.GetAutofacMultitenantRoot());
+#pragma warning restore 618
         }
 
         [Fact]
@@ -28,8 +29,10 @@ namespace Autofac.Integration.AspNetCore.Multitenant.Test
 
             var serviceProvider = container.Resolve<IServiceProvider>();
 
+#pragma warning disable 618
             Assert.Throws<InvalidOperationException>(() =>
                 serviceProvider.GetAutofacMultitenantRoot());
+#pragma warning restore 618
         }
 
         private static MultitenantContainer CreateMultitenantContainer(IContainer container)
