@@ -50,7 +50,7 @@ namespace Autofac.Integration.AspNetCore.Multitenant
                 this._contextAccessor.HttpContext = context;
             }
 
-            IServiceProvidersFeature existingFeature = null;
+            IServiceProvidersFeature existingFeature = null!;
             try
             {
                 var autofacFeature = RequestServicesFeatureFactory.CreateFeature(context, _multitenantContainer.Resolve<IServiceScopeFactory>());

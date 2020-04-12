@@ -41,7 +41,7 @@ namespace Autofac.Integration.AspNetCore.Multitenant.Test
         public void AddAutofacMultitenantRequestServices_NullBuilder()
         {
             var mtc = new MultitenantContainer(Mock.Of<ITenantIdentificationStrategy>(), new ContainerBuilder().Build());
-            Assert.Throws<ArgumentNullException>(() => AutofacMultitenantServiceCollectionExtensions.AddAutofacMultitenantRequestServices(null));
+            Assert.Throws<ArgumentNullException>(() => AutofacMultitenantServiceCollectionExtensions.AddAutofacMultitenantRequestServices(null!));
         }
     }
 }

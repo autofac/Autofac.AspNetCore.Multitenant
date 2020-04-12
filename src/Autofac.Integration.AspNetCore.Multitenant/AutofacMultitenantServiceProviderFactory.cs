@@ -52,7 +52,7 @@ namespace Microsoft.AspNetCore.Hosting
         /// <param name="configurationAction">Action on a <see cref="ContainerBuilder"/> that adds component registrations to the conatiner.</param>
         /// <exception cref="System.ArgumentNullException"></exception>
         /// Thrown if <paramref name="multitenantContainerAccessor" /> is <see langword="null" />.
-        public AutofacMultitenantServiceProviderFactory(Func<IContainer, MultitenantContainer> multitenantContainerAccessor, Action<ContainerBuilder> configurationAction = null)
+        public AutofacMultitenantServiceProviderFactory(Func<IContainer, MultitenantContainer>? multitenantContainerAccessor, Action<ContainerBuilder>? configurationAction = null)
         {
             this._multitenantContainerAccessor = multitenantContainerAccessor ?? throw new ArgumentNullException(nameof(multitenantContainerAccessor));
             this._configurationAction = configurationAction ?? (builder => { });
@@ -83,7 +83,7 @@ namespace Microsoft.AspNetCore.Hosting
         {
             if (containerBuilder == null) throw new ArgumentNullException(nameof(containerBuilder));
 
-            MultitenantContainer multitenantContainer = null;
+            MultitenantContainer multitenantContainer = null!;
 
             containerBuilder.Register(_ => multitenantContainer)
               .AsSelf()

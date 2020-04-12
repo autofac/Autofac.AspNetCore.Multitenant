@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Autofac.Integration.AspNetCore.Multitenant.Properties;
 using Autofac.Multitenant;
 using Microsoft.AspNetCore.Hosting;

@@ -4,7 +4,7 @@ namespace Autofac.Integration.AspNetCore.Multitenant.Test.TestDependencies
 {
     public sealed class TenantAccessorDependency : ITenantAccessor
     {
-        public string CurrentTenant { get; }
+        public string? CurrentTenant { get; }
 
         public TenantAccessorDependency(ITenantIdentificationStrategy tenantIdentificationStrategy)
         {

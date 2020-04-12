@@ -40,6 +40,8 @@ ProjectSection(SolutionItems) = preProject
 	build\icon.png = build\icon.png
 EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sandbox.AspNetCore5", "samples\Sandbox.AspNetCore5\Sandbox.AspNetCore5.csproj", "{B64B6D62-AD07-49BE-AF65-3E4C92284AD5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -66,6 +68,10 @@ Global
 		{FB888CA9-A343-4A84-A411-D970A278EFC6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FB888CA9-A343-4A84-A411-D970A278EFC6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FB888CA9-A343-4A84-A411-D970A278EFC6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B64B6D62-AD07-49BE-AF65-3E4C92284AD5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B64B6D62-AD07-49BE-AF65-3E4C92284AD5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B64B6D62-AD07-49BE-AF65-3E4C92284AD5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B64B6D62-AD07-49BE-AF65-3E4C92284AD5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -76,6 +82,7 @@ Global
 		{12445470-D348-467F-8D3F-FBD6EF525CEE} = {BD3275CD-8B4C-4CEA-8DDB-BEF386DD48B5}
 		{C1C581D6-57C2-4448-BF83-59C39CED7ABC} = {BD3275CD-8B4C-4CEA-8DDB-BEF386DD48B5}
 		{FB888CA9-A343-4A84-A411-D970A278EFC6} = {BD3275CD-8B4C-4CEA-8DDB-BEF386DD48B5}
+		{B64B6D62-AD07-49BE-AF65-3E4C92284AD5} = {BD3275CD-8B4C-4CEA-8DDB-BEF386DD48B5}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {86C0AA9A-D4DE-4954-A10C-5CEF56C5A8D1}
