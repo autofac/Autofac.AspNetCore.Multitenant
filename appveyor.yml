@@ -1,8 +1,8 @@
+image: Ubuntu
+
 version: 3.0.1.{build}
 
 configuration: Release
-
-image: Visual Studio 2019
 
 environment:
   DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
@@ -18,7 +18,7 @@ clone_depth: 1
 test: off
 
 build_script:
-- ps: .\build.ps1
+  - pwsh: .\build.ps1
 
 artifacts:
 - path: artifacts\packages\**\*.nupkg
