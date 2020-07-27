@@ -15,6 +15,7 @@
     <PackageReleaseNotes>Release notes are at https://github.com/autofac/Autofac.AspNetCore.Multitenant/releases</PackageReleaseNotes>
     <PackageProjectUrl>https://autofac.org</PackageProjectUrl>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageIcon>icon.png</PackageIcon>
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>https://github.com/autofac/Autofac.AspNetCore.Multitenant</RepositoryUrl>
     <CodeAnalysisRuleSet>../../build/Analyzers.ruleset</CodeAnalysisRuleSet>
