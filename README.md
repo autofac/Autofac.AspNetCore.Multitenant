@@ -2,7 +2,7 @@
 
 ASP.NET Core support for multitenant DI via [Autofac.Multitenant](https://github.com/autofac/Autofac.Multitenant).
 
-[![Build status](https://ci.appveyor.com/api/projects/status/u6epu5sc9f9sgav3?svg=true)](https://ci.appveyor.com/project/Autofac/autofac-aspnetcore-multitenant)
+[![Build status](https://ci.appveyor.com/api/projects/status/u6epu5sc9f9sgav3?svg=true)](https://ci.appveyor.com/project/Autofac/autofac-aspnetcore-multitenant) [![codecov](https://codecov.io/gh/Autofac/Autofac.AspNetCore.Multitenant/branch/develop/graph/badge.svg)](https://codecov.io/gh/Autofac/Autofac.AspNetCore.Multitenant)
 
 Please file issues and pull requests for this package in this repository rather than in the Autofac core repo.
 

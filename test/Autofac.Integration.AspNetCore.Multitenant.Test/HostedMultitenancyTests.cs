@@ -1,18 +1,6 @@
-﻿using System;
-using System.Net;
-using System.Net.Http;
+﻿using System.Net;
 using System.Threading.Tasks;
-using Autofac.Extensions.DependencyInjection;
 using Autofac.Integration.AspNetCore.Multitenant.Test.TestDependencies;
-using Autofac.Multitenant;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
-#if NETCOREAPP3_0
-using Microsoft.AspNetCore.Routing;
-using Microsoft.AspNetCore.TestHost;
-#endif
-using Microsoft.Extensions.DependencyInjection;
 using Xunit;
 
 namespace Autofac.Integration.AspNetCore.Multitenant.Test
