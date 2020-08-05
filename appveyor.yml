@@ -2,6 +2,11 @@ image: Ubuntu
 
 version: 3.0.2.{build}
 
+dotnet_csproj:
+  version_prefix: '3.0.2'
+  patch: true
+  file: 'src\**\*.csproj'
+
 configuration: Release
 
 environment:
