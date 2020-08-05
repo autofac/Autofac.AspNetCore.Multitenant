@@ -1,6 +1,6 @@
 image: Ubuntu
 
-version: 3.0.1.{build}
+version: 3.0.2.{build}
 
 configuration: Release
 
