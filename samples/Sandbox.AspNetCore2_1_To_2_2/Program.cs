@@ -7,14 +7,14 @@ using Sandbox.Shared;
 
 namespace Sandbox.AspNetCore2_1_To_2_2
 {
-    public class Program
+    public static class Program
     {
         public static Task Main(string[] args)
         {
             return CreateWebHostBuilder(args).Build().RunAsync();
         }
 
-        public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
+        private static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
                 .UseStartup<Startup>()
                 .UseAutofacMultitenantRequestServices()

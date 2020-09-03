@@ -31,15 +31,15 @@ using Autofac.Multitenant;
 namespace Autofac.Integration.AspNetCore.Multitenant
 {
     /// <summary>
-    /// Extension methods for use with the <see cref="AutofacMultitenantServiceProvider"/>.
+    /// Extension methods for use with the <see cref="AutofacServiceProvider"/>.
     /// </summary>
     public static class AutofacMultitenantServiceProviderExtensions
     {
         /// <summary>
-        /// Tries to cast the instance of <see cref="MultitenantContainer"/> from <see cref="AutofacMultitenantServiceProvider"/> when possible.
+        /// Tries to cast the instance of <see cref="MultitenantContainer"/> from <see cref="AutofacServiceProvider"/> when possible.
         /// </summary>
         /// <param name="serviceProvider">The instance of <see cref="IServiceProvider"/>.</param>
-        /// <returns>Returns the instance of <see cref="MultitenantContainer"/> exposed by <see cref="AutofacMultitenantServiceProvider"/> when it can be casted down from <see cref="ILifetimeScope"/>.</returns>
+        /// <returns>Returns the instance of <see cref="MultitenantContainer"/> exposed by <see cref="AutofacServiceProvider"/> when it can be casted down from <see cref="ILifetimeScope"/>.</returns>
         /// <exception cref="InvalidOperationException">
         /// Thrown if <paramref name="serviceProvider" /> can't be casted to <see cref="MultitenantContainer"/>.
         /// </exception>

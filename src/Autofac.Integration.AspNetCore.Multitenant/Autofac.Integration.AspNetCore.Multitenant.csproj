@@ -43,7 +43,7 @@
 
   <ItemGroup>
     <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="6.0.0" />
-    <PackageReference Include="Autofac.Multitenant" Version="5.0.1" />
+    <PackageReference Include="Autofac.Multitenant" Version="6.0.0-develop-00294" />
     <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="2.6.1">
       <PrivateAssets>All</PrivateAssets>
     </PackageReference>

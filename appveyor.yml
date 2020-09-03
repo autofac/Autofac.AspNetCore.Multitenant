@@ -1,9 +1,9 @@
 image: Ubuntu
 
-version: 3.0.2.{build}
+version: 4.0.0.{build}
 
 dotnet_csproj:
-  version_prefix: '3.0.2'
+  version_prefix: '4.0.0'
   patch: true
   file: 'src\**\*.csproj'
 
