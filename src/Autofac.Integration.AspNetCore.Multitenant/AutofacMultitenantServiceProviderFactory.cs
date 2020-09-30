@@ -93,7 +93,7 @@ namespace Microsoft.AspNetCore.Hosting
 
             if (multitenantContainer == null) throw new InvalidOperationException(Resources.NoMultitenantContainerAvailable);
 
-            return new AutofacMultitenantServiceProvider(multitenantContainer);
+            return new AutofacServiceProvider(multitenantContainer);
         }
     }
 }
