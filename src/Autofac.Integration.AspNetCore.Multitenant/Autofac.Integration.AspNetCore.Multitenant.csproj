@@ -10,7 +10,6 @@
     <AssemblyName>Autofac.Integration.AspNetCore.Multitenant</AssemblyName>
     <AssemblyOriginatorKeyFile>../../Autofac.snk</AssemblyOriginatorKeyFile>
     <SignAssembly>true</SignAssembly>
-    <PublicSign Condition=" '$(OS)' != 'Windows_NT' ">true</PublicSign>
     <PackageId>Autofac.AspNetCore.Multitenant</PackageId>
     <PackageTags>autofac;di;ioc;dependencyinjection;aspnet;aspnetcore</PackageTags>
     <PackageReleaseNotes>Release notes are at https://github.com/autofac/Autofac.AspNetCore.Multitenant/releases</PackageReleaseNotes>
