@@ -37,24 +37,24 @@ function Install-DotNetCli {
 
     if ($null -ne (Get-Command "dotnet" -ErrorAction SilentlyContinue)) {
         $installedVersions = dotnet --list-sdks
-        Write-Message "Currently installed Versions $installedVersions"
-
         foreach ($sdkListLine in $installedVersions)
         {
             $splitParts = $sdkListLine.Split(" ");
 
             $versionPart = $splitParts[0];
 
+            $globalInstallLocation = $splitParts[1].Replace("[", "").Replace("]", "")
+
             if ($versionPart -eq $Version)
             {
-                Write-Message "Version-Part is $versionPart"
-                Write-Message "Version is $Version"
-
-                Write-Message ".NET Core SDK version $Version is already installed."
+                Write-Message ".NET Core SDK version $Version is already installed in $globalInstallLocation"
+                Extend-Path "$globalInstallLocation"
                 return;
             }
         }
     }
+
+    Write-Message "Installing .NET SDK version $Version"
 
     $callerPath = Split-Path $MyInvocation.PSCommandPath
     $installDir = Join-Path -Path $callerPath -ChildPath ".dotnet/cli"
@@ -69,15 +69,39 @@ function Install-DotNetCli {
         }
 
         & ./.dotnet/dotnet-install.ps1 -InstallDir "$installDir" -Version $Version
-        $env:PATH = "$installDir;$env:PATH"
     } else {
         if (!(Test-Path ./.dotnet/dotnet-install.sh)) {
             Invoke-WebRequest "https://dot.net/v1/dotnet-install.sh" -OutFile "./.dotnet/dotnet-install.sh"
         }
 
         & bash ./.dotnet/dotnet-install.sh --install-dir "$installDir" --version $Version
-        $env:PATH = "$installDir`:$env:PATH"
     }
+
+    Extend-Path "$installDir"
+}
+
+<#
+.SYNOPSIS
+    Appends the Path with the given value but only if the value does not yet exist within the path.
+#>
+function Extend-Path {
+    [CmdletBinding()]
+    Param(
+        [string]
+        $path
+    )
+
+    if ($path -eq "") {
+      return;
+    }
+
+    $pathValues = $env:PATH.Split(";");
+
+    if ($pathValues -Contains $path) {
+      return;
+    }
+
+  $env:PATH = "$path;$env:PATH"
 }
 
 <#
