@@ -16,11 +16,15 @@ namespace Autofac.Integration.AspNetCore.Multitenant.Test.TestDependencies
         {
             tenantId = null!;
 
-            if (this._httpContextAccessor.HttpContext is null)
+            if (_httpContextAccessor.HttpContext is null)
+            {
                 return false;
+            }
 
             if (!_httpContextAccessor.HttpContext.Request.Query.TryGetValue("tenant", out var tenantValues))
+            {
                 return false;
+            }
 
             tenantId = tenantValues[0];
             return true;

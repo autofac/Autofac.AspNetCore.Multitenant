@@ -12,7 +12,7 @@ namespace Sandbox.AspNetCore2_1_To_2_2
     {
         public Startup(IConfiguration configuration)
         {
-            this.Configuration = configuration;
+            Configuration = configuration;
         }
 
         public IConfiguration Configuration { get; }
