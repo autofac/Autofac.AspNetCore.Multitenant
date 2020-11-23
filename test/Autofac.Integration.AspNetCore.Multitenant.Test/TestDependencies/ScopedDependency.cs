@@ -8,7 +8,7 @@ namespace Autofac.Integration.AspNetCore.Multitenant.Test.TestDependencies
 
         public ScopedDependency()
         {
-            this.Id = Guid.NewGuid();
+            Id = Guid.NewGuid();
         }
     }
 }

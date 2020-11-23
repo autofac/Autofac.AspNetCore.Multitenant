@@ -8,13 +8,13 @@ namespace Sandbox.Shared
     {
         public ValuesController(IDependency dependency)
         {
-            this.Dependency = dependency;
+            Dependency = dependency;
         }
 
         [HttpGet]
         public string Get()
         {
-            return this.Dependency.Id;
+            return Dependency.Id;
         }
 
         public IDependency Dependency { get; set; }

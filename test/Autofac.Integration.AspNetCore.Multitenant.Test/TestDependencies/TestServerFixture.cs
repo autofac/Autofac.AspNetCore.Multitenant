@@ -118,7 +118,7 @@ namespace Autofac.Integration.AspNetCore.Multitenant.Test.TestDependencies
                         Assert.Equal(tenantId, tenantAccessor.CurrentTenant);
                         Assert.Equal(tenantId, whoAmI.Id);
 
-                        await context.Response.WriteAsync(tenantAccessor.CurrentTenant);
+                        await context.Response.WriteAsync(tenantAccessor.CurrentTenant!);
                     });
 
                     routeBuilder.MapGet("supports-with-and-without-tenant", async context =>

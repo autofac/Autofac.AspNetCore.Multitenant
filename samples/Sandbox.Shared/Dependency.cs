@@ -9,14 +9,14 @@ namespace Sandbox.Shared
 
         public Dependency(ILogger<Dependency> logger)
         {
-            this._logger = logger;
+            _logger = logger;
         }
 
         public string Id { get; set; }
 
         public void Dispose()
         {
-            this._logger.LogInformation("Disposing dependency '{id}'.", this.Id);
+            _logger.LogInformation("Disposing dependency '{id}'.", Id);
         }
     }
 }

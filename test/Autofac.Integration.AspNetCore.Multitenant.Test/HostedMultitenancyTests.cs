@@ -11,13 +11,13 @@ namespace Autofac.Integration.AspNetCore.Multitenant.Test
 
         public HostedMultitenancyTests(TestServerFixture testServerFixture)
         {
-            this._testServerFixture = testServerFixture;
+            _testServerFixture = testServerFixture;
         }
 
         [Fact]
         public async Task CallRootEndpoint_HasTheCorrectDependenciesAndResponseIsBase()
         {
-            var client = this._testServerFixture.GetApplicationClient();
+            var client = _testServerFixture.GetApplicationClient();
 
             var response = await client.GetAsync("root-endpoint");
 
@@ -31,7 +31,7 @@ namespace Autofac.Integration.AspNetCore.Multitenant.Test
         [InlineData("b")]
         public async Task CallScopedEndpoint_TwoCallsFuncResolveCalledTwice_DependencyIdNotEqual(string tenantQuery)
         {
-            var client = this._testServerFixture.GetApplicationClient();
+            var client = _testServerFixture.GetApplicationClient();
 
             var resultA = await client.GetAsync($"scoped-endpoint?tenant={tenantQuery}");
             var resultB = await client.GetAsync($"scoped-endpoint?tenant={tenantQuery}");
@@ -46,7 +46,7 @@ namespace Autofac.Integration.AspNetCore.Multitenant.Test
         [InlineData("b", "b")]
         public async Task CallTenantEndpoint_HasTheCorrectDependenciesAndResponseIsTenantItself(string tenantQuery, string expectedTenantId)
         {
-            var client = this._testServerFixture.GetApplicationClient();
+            var client = _testServerFixture.GetApplicationClient();
 
             var response = await client.GetAsync($"tenant-endpoint?tenant={tenantQuery}");
 
@@ -58,7 +58,7 @@ namespace Autofac.Integration.AspNetCore.Multitenant.Test
         [InlineData("tenant-does-not-exist")]
         public async Task CallTenantEndpoint_WithNonExistantTenantReturns404(string tenantQuery)
         {
-            var client = this._testServerFixture.GetApplicationClient();
+            var client = _testServerFixture.GetApplicationClient();
 
             var response = await client.GetAsync($"tenant-endpoint?tenant={tenantQuery}");
 
@@ -72,7 +72,7 @@ namespace Autofac.Integration.AspNetCore.Multitenant.Test
         [InlineData("b", "b")]
         public async Task CallGenericEndpoint_HasTheCorrectDependenciesAndResponseIsTenantOrBase(string tenantQuery, string expectedTenantId)
         {
-            var client = this._testServerFixture.GetApplicationClient();
+            var client = _testServerFixture.GetApplicationClient();
 
             var response = await client.GetAsync($"supports-with-and-without-tenant?tenant={tenantQuery}");
 
