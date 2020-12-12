@@ -9,4 +9,8 @@
       <ProjectReference Include="..\Sandbox.Shared\Sandbox.Shared.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <AdditionalFiles Include="../../build/stylecop.json" Link="stylecop.json" />
+    </ItemGroup>
+
 </Project>
