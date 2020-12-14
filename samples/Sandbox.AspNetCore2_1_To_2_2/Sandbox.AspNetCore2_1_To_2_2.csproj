@@ -2,7 +2,7 @@
     <PropertyGroup>
       <TargetFramework>netcoreapp2.1</TargetFramework>
       <RootNamespace>Sandbox</RootNamespace>
-      <NoWarn>$(NoWarn);CS1591; SA1600</NoWarn>
+      <NoWarn>$(NoWarn);CS1591;SA1600</NoWarn>
       <GenerateDocumentationFile>true</GenerateDocumentationFile>
       <CodeAnalysisRuleSet>../../build/Analyzers.ruleset</CodeAnalysisRuleSet>
     </PropertyGroup>
