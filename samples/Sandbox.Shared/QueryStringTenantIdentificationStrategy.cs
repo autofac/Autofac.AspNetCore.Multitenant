@@ -1,9 +1,12 @@
-﻿using Autofac.Multitenant;
+﻿// Copyright (c) Autofac Project. All rights reserved.
+// Licensed under the MIT License. See LICENSE in the project root for license information.
+
+using Autofac.Multitenant;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Primitives;
 
-namespace Sandbox.Shared
+namespace Sandbox
 {
     public class QueryStringTenantIdentificationStrategy : ITenantIdentificationStrategy
     {

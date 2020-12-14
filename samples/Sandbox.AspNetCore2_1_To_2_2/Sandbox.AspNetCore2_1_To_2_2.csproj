@@ -2,10 +2,16 @@
     <PropertyGroup>
       <TargetFramework>netcoreapp2.1</TargetFramework>
       <RootNamespace>Sandbox</RootNamespace>
+      <NoWarn>$(NoWarn);CS1591; SA1600</NoWarn>
+      <GenerateDocumentationFile>true</GenerateDocumentationFile>
+      <CodeAnalysisRuleSet>../../build/Analyzers.ruleset</CodeAnalysisRuleSet>
     </PropertyGroup>
 
     <ItemGroup>
       <PackageReference Include="Microsoft.AspNetCore.App" />
+      <PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
+        <PrivateAssets>All</PrivateAssets>
+      </PackageReference>
     </ItemGroup>
 
     <ItemGroup>

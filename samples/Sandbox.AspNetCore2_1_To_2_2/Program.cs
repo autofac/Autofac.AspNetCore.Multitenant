@@ -1,11 +1,13 @@
-﻿using System.Threading.Tasks;
+﻿// Copyright (c) Autofac Project. All rights reserved.
+// Licensed under the MIT License. See LICENSE in the project root for license information.
+
+using System.Threading.Tasks;
 using Autofac;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
-using Sandbox.Shared;
 
-namespace Sandbox.AspNetCore2_1_To_2_2
+namespace Sandbox
 {
     public static class Program
     {
