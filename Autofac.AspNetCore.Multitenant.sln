@@ -38,6 +38,7 @@ ProjectSection(SolutionItems) = preProject
 	build\Autofac.Build.psm1 = build\Autofac.Build.psm1
 	build\CodeAnalysisDictionary.xml = build\CodeAnalysisDictionary.xml
 	build\icon.png = build\icon.png
+	build\stylecop.json = build\stylecop.json
 EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sandbox.AspNetCore5", "samples\Sandbox.AspNetCore5\Sandbox.AspNetCore5.csproj", "{B64B6D62-AD07-49BE-AF65-3E4C92284AD5}"

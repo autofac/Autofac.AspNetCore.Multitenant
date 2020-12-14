@@ -1,4 +1,7 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿// Copyright (c) Autofac Project. All rights reserved.
+// Licensed under the MIT License. See LICENSE in the project root for license information.
+
+using System.Diagnostics.CodeAnalysis;
 using System.Net;
 using System.Net.Http;
 using Autofac.Multitenant;
@@ -29,6 +32,28 @@ namespace Autofac.Integration.AspNetCore.Multitenant.Test.TestDependencies
 
         private sealed class Startup
         {
+            public static MultitenantContainer CreateMultitenantContainer(IContainer container)
+            {
+                var strategy = container.Resolve<ITenantIdentificationStrategy>();
+
+                var mtc = new MultitenantContainer(strategy, container);
+
+                mtc.ConfigureTenant(
+                    "a",
+                    cb => cb
+                        .RegisterType<WhoAmIDependency>()
+                        .WithParameter("id", "a")
+                        .InstancePerLifetimeScope());
+                mtc.ConfigureTenant(
+                    "b",
+                    cb => cb
+                        .RegisterType<WhoAmIDependency>()
+                        .WithParameter("id", "b")
+                        .InstancePerLifetimeScope());
+
+                return mtc;
+            }
+
             public void ConfigureServices(IServiceCollection services)
             {
                 services
@@ -51,28 +76,6 @@ namespace Autofac.Integration.AspNetCore.Multitenant.Test.TestDependencies
             {
                 // You must have ConfigureContainer here, even if it's
                 // not used, or the Autofac container won't be built.
-            }
-
-            public static MultitenantContainer CreateMultitenantContainer(IContainer container)
-            {
-                var strategy = container.Resolve<ITenantIdentificationStrategy>();
-
-                var mtc = new MultitenantContainer(strategy, container);
-
-                mtc.ConfigureTenant(
-                    "a",
-                    cb => cb
-                        .RegisterType<WhoAmIDependency>()
-                        .WithParameter("id", "a")
-                        .InstancePerLifetimeScope());
-                mtc.ConfigureTenant(
-                    "b",
-                    cb => cb
-                        .RegisterType<WhoAmIDependency>()
-                        .WithParameter("id", "b")
-                        .InstancePerLifetimeScope());
-
-                return mtc;
             }
 
             public void Configure(IApplicationBuilder builder)

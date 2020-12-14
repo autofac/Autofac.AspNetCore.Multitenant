@@ -1,27 +1,5 @@
-﻿// This software is part of the Autofac IoC container
-// Copyright © 2019 Autofac Contributors
-// https://autofac.org
-//
-// Permission is hereby granted, free of charge, to any person
-// obtaining a copy of this software and associated documentation
-// files (the "Software"), to deal in the Software without
-// restriction, including without limitation the rights to use,
-// copy, modify, merge, publish, distribute, sublicense, and/or sell
-// copies of the Software, and to permit persons to whom the
-// Software is furnished to do so, subject to the following
-// conditions:
-//
-// The above copyright notice and this permission notice shall be
-// included in all copies or substantial portions of the Software.
-//
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
-// EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
-// OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
-// NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
-// HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
-// WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-// FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
-// OTHER DEALINGS IN THE SOFTWARE.
+﻿// Copyright (c) Autofac Project. All rights reserved.
+// Licensed under the MIT License. See LICENSE in the project root for license information.
 
 using System;
 using System.Collections.Generic;
@@ -50,7 +28,7 @@ namespace Microsoft.AspNetCore.Hosting
         /// </summary>
         /// <param name="multitenantContainerAccessor">A function that will access the multitenant container from which request lifetimes should be generated.</param>
         /// <param name="configurationAction">Action on a <see cref="ContainerBuilder"/> that adds component registrations to the conatiner.</param>
-        /// <exception cref="System.ArgumentNullException"></exception>
+        /// <exception cref="System.ArgumentNullException">Throws when the multitenant container accessor is null.</exception>
         /// Thrown if <paramref name="multitenantContainerAccessor" /> is <see langword="null" />.
         public AutofacMultitenantServiceProviderFactory(Func<IContainer, MultitenantContainer>? multitenantContainerAccessor, Action<ContainerBuilder>? configurationAction = null)
         {
@@ -81,7 +59,10 @@ namespace Microsoft.AspNetCore.Hosting
         /// <returns>An <see cref="IServiceProvider" />.</returns>
         public IServiceProvider CreateServiceProvider(ContainerBuilder containerBuilder)
         {
-            if (containerBuilder == null) throw new ArgumentNullException(nameof(containerBuilder));
+            if (containerBuilder == null)
+            {
+                throw new ArgumentNullException(nameof(containerBuilder));
+            }
 
             MultitenantContainer multitenantContainer = null!;
 
@@ -91,7 +72,10 @@ namespace Microsoft.AspNetCore.Hosting
 
             multitenantContainer = _multitenantContainerAccessor(containerBuilder.Build());
 
-            if (multitenantContainer == null) throw new InvalidOperationException(Resources.NoMultitenantContainerAvailable);
+            if (multitenantContainer == null)
+            {
+                throw new InvalidOperationException(Resources.NoMultitenantContainerAvailable);
+            }
 
             return new AutofacServiceProvider(multitenantContainer);
         }

@@ -1,15 +1,24 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
+    <PropertyGroup>
+      <TargetFramework>netcoreapp2.1</TargetFramework>
+      <RootNamespace>Sandbox</RootNamespace>
+      <NoWarn>$(NoWarn);CS1591; SA1600</NoWarn>
+      <GenerateDocumentationFile>true</GenerateDocumentationFile>
+      <CodeAnalysisRuleSet>../../build/Analyzers.ruleset</CodeAnalysisRuleSet>
+    </PropertyGroup>
 
-  <PropertyGroup>
-    <TargetFramework>netcoreapp2.1</TargetFramework>
-  </PropertyGroup>
+    <ItemGroup>
+      <PackageReference Include="Microsoft.AspNetCore.App" />
+      <PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
+        <PrivateAssets>All</PrivateAssets>
+      </PackageReference>
+    </ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.App" />
-  </ItemGroup>
+    <ItemGroup>
+      <ProjectReference Include="..\Sandbox.Shared\Sandbox.Shared.csproj" />
+    </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\Sandbox.Shared\Sandbox.Shared.csproj" />
-  </ItemGroup>
-
+    <ItemGroup>
+      <AdditionalFiles Include="../../build/stylecop.json" Link="stylecop.json" />
+    </ItemGroup>
 </Project>

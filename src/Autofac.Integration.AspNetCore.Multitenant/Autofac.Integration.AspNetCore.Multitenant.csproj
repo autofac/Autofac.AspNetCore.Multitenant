@@ -34,6 +34,10 @@
     <None Include="..\..\build\icon.png" Pack="true" PackagePath="\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <AdditionalFiles Include="../../build/stylecop.json" Link="stylecop.json" />
+  </ItemGroup>
+
   <ItemGroup Condition="$(TargetFramework) == 'netstandard2.0'">
     <PackageReference Include="Microsoft.AspNetCore.Hosting" Version="2.1.0" />
   </ItemGroup>
