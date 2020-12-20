@@ -1,13 +1,13 @@
 ﻿{
   "profiles": {
-    "Sandbox.Sandbox.AspNetCore3_To_3_1": {
+    "Sandbox.AspNetCore5": {
       "commandName": "Project",
       "launchBrowser": true,
       "launchUrl": "api/values",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
-      "applicationUrl": "http://localhost:35115"
+      "applicationUrl": "http://localhost:35116"
     }
   }
 }

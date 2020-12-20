@@ -1,4 +1,7 @@
-﻿using System;
+﻿// Copyright (c) Autofac Project. All rights reserved.
+// Licensed under the MIT License. See LICENSE in the project root for license information.
+
+using System;
 using Autofac.Multitenant;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -50,7 +53,7 @@ namespace Autofac.Integration.AspNetCore.Multitenant.Test
         public void UseAutofacMultitenantRequestServices_NullBuilder()
         {
             var mtc = new MultitenantContainer(Mock.Of<ITenantIdentificationStrategy>(), new ContainerBuilder().Build());
-            Assert.Throws<ArgumentNullException>(() => AutofacMultitenantWebHostBuilderExtensions.UseAutofacMultitenantRequestServices(null));
+            Assert.Throws<ArgumentNullException>(() => AutofacMultitenantWebHostBuilderExtensions.UseAutofacMultitenantRequestServices(null!));
         }
     }
 }

@@ -1,4 +1,7 @@
-﻿using System;
+﻿// Copyright (c) Autofac Project. All rights reserved.
+// Licensed under the MIT License. See LICENSE in the project root for license information.
+
+using System;
 using System.Threading.Tasks;
 using Autofac.Multitenant;
 using Microsoft.AspNetCore.Hosting;
@@ -26,9 +29,9 @@ namespace Autofac.Integration.AspNetCore.Multitenant
         /// <param name="multitenantContainer">The <see cref="MultitenantContainer"/> registered through <see cref="AutofacMultitenantServiceProviderFactory"/>.</param>
         public MultitenantRequestServicesMiddleware(RequestDelegate next, IHttpContextAccessor contextAccessor, MultitenantContainer multitenantContainer)
         {
-            this._next = next;
-            this._contextAccessor = contextAccessor;
-            this._multitenantContainer = multitenantContainer;
+            _next = next;
+            _contextAccessor = contextAccessor;
+            _multitenantContainer = multitenantContainer;
         }
 
         /// <summary>
@@ -45,12 +48,12 @@ namespace Autofac.Integration.AspNetCore.Multitenant
             // If there isn't already an HttpContext set on the context
             // accessor for this async/thread operation, set it. This allows
             // tenant identification to use it.
-            if (this._contextAccessor.HttpContext == null)
+            if (_contextAccessor.HttpContext == null)
             {
-                this._contextAccessor.HttpContext = context;
+                _contextAccessor.HttpContext = context;
             }
 
-            IServiceProvidersFeature existingFeature = null;
+            IServiceProvidersFeature existingFeature = null!;
             try
             {
                 var autofacFeature = RequestServicesFeatureFactory.CreateFeature(context, _multitenantContainer.Resolve<IServiceScopeFactory>());
@@ -63,7 +66,7 @@ namespace Autofac.Integration.AspNetCore.Multitenant
                 existingFeature = context.Features.Get<IServiceProvidersFeature>();
                 context.Features.Set(autofacFeature);
 
-                await this._next.Invoke(context);
+                await _next.Invoke(context);
             }
             finally
             {

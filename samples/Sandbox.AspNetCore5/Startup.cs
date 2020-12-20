@@ -1,10 +1,9 @@
-﻿// Copyright (c) Autofac Project. All rights reserved.
+// Copyright (c) Autofac Project. All rights reserved.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
 using Autofac;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Sandbox
@@ -15,8 +14,7 @@ namespace Sandbox
         {
             services
                 .AddAutofacMultitenantRequestServices()
-                .AddControllers()
-                .SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
+                .AddControllers();
         }
 
         public void ConfigureContainer(ContainerBuilder builder)

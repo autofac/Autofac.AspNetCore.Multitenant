@@ -1,3 +1,6 @@
+// Copyright (c) Autofac Project. All rights reserved.
+// Licensed under the MIT License. See LICENSE in the project root for license information.
+
 using Autofac.Multitenant;
 using Microsoft.AspNetCore.Http;
 
@@ -14,15 +17,20 @@ namespace Autofac.Integration.AspNetCore.Multitenant.Test.TestDependencies
 
         public bool TryIdentifyTenant(out object tenantId)
         {
-            if (_httpContextAccessor.HttpContext?.Request.Query.TryGetValue("tenant", out var tenantValues) ??
-                false)
+            tenantId = null!;
+
+            if (_httpContextAccessor.HttpContext is null)
             {
-                tenantId = tenantValues[0];
-                return true;
+                return false;
             }
 
-            tenantId = null;
-            return false;
+            if (!_httpContextAccessor.HttpContext.Request.Query.TryGetValue("tenant", out var tenantValues))
+            {
+                return false;
+            }
+
+            tenantId = tenantValues[0];
+            return true;
         }
     }
 }

@@ -1,9 +1,12 @@
-﻿using Autofac.Multitenant;
+﻿// Copyright (c) Autofac Project. All rights reserved.
+// Licensed under the MIT License. See LICENSE in the project root for license information.
+
+using Autofac.Multitenant;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Primitives;
 
-namespace Sandbox.Shared
+namespace Sandbox
 {
     public class QueryStringTenantIdentificationStrategy : ITenantIdentificationStrategy
     {
@@ -11,15 +14,15 @@ namespace Sandbox.Shared
 
         public QueryStringTenantIdentificationStrategy(IHttpContextAccessor accessor, ILogger<QueryStringTenantIdentificationStrategy> logger)
         {
-            this.Accessor = accessor;
-            this._logger = logger;
+            Accessor = accessor;
+            _logger = logger;
         }
 
         public IHttpContextAccessor Accessor { get; private set; }
 
         public bool TryIdentifyTenant(out object tenantId)
         {
-            var context = this.Accessor.HttpContext;
+            var context = Accessor.HttpContext;
             if (context == null)
             {
                 // No current HttpContext. This happens during app startup
@@ -43,11 +46,11 @@ namespace Sandbox.Shared
             {
                 tenantId = tenantValues[0];
                 context.Items["_tenantId"] = tenantId;
-                this._logger.LogInformation("Identified tenant: {tenant}", tenantId);
+                _logger.LogInformation("Identified tenant: {tenant}", tenantId);
                 return true;
             }
 
-            this._logger.LogWarning("Unable to identify tenant from query string. Falling back to default.");
+            _logger.LogWarning("Unable to identify tenant from query string. Falling back to default.");
             tenantId = null;
             context.Items["_tenantId"] = null;
             return false;

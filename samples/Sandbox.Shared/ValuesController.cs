@@ -1,6 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿// Copyright (c) Autofac Project. All rights reserved.
+// Licensed under the MIT License. See LICENSE in the project root for license information.
 
-namespace Sandbox.Shared
+using Microsoft.AspNetCore.Mvc;
+
+namespace Sandbox
 {
     [ApiController]
     [Route("api/[controller]")]
@@ -8,15 +11,15 @@ namespace Sandbox.Shared
     {
         public ValuesController(IDependency dependency)
         {
-            this.Dependency = dependency;
+            Dependency = dependency;
         }
+
+        public IDependency Dependency { get; set; }
 
         [HttpGet]
         public string Get()
         {
-            return this.Dependency.Id;
+            return Dependency.Id;
         }
-
-        public IDependency Dependency { get; set; }
     }
 }
