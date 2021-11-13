@@ -1,4 +1,8 @@
 {
+  "cSpell.words": [
+    "autofac",
+    "multitenant"
+  ],
   "dotnet-test-explorer.runInParallel": true,
   "dotnet-test-explorer.testProjectPath": "test/**/*.Test.csproj"
 }
