@@ -1,13 +1,14 @@
 ﻿{
+  "$schema": "http://json.schemastore.org/launchsettings.json",
   "profiles": {
     "Sandbox.Sandbox.AspNetCore3_To_3_1": {
+      "applicationUrl": "http://localhost:5555",
       "commandName": "Project",
-      "launchBrowser": true,
-      "launchUrl": "api/values",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
-      "applicationUrl": "http://localhost:35115"
+      "launchBrowser": true,
+      "launchUrl": "api/values"
     }
   }
 }
