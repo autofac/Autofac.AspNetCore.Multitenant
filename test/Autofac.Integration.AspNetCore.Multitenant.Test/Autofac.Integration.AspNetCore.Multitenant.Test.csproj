@@ -2,6 +2,8 @@
 
   <PropertyGroup>
     <TargetFrameworks>netcoreapp2.1;netcoreapp3.1;net5.0</TargetFrameworks>
+    <!-- netcoreapp2.1 is out of support, we don't need a warning about it. -->
+    <CheckEolTargetFramework>false</CheckEolTargetFramework>
     <NoWarn>$(NoWarn);CS1591;SA1600</NoWarn>
     <AssemblyOriginatorKeyFile>../../Autofac.snk</AssemblyOriginatorKeyFile>
     <SignAssembly>true</SignAssembly>

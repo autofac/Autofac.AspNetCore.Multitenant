@@ -1,10 +1,9 @@
 {
   "recommendations": [
-    "ms-dotnettools.csharp",
-    "formulahendry.dotnet-test-explorer",
-    "editorconfig.editorconfig",
-    "shd101wyy.markdown-preview-enhanced",
     "davidanson.vscode-markdownlint",
+    "editorconfig.editorconfig",
+    "formulahendry.dotnet-test-explorer",
+    "ms-dotnettools.csharp",
     "stkb.rewrap"
   ]
 }
