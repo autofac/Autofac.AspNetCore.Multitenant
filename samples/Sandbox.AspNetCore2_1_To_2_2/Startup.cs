@@ -25,7 +25,6 @@ namespace Sandbox
 
         public void Configure(IApplicationBuilder app)
         {
-            app.UseHttpsRedirection();
             app.UseMvc();
         }
 
