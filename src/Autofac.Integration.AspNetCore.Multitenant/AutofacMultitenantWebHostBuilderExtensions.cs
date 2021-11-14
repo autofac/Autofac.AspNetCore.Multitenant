@@ -2,8 +2,6 @@
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
 using System;
-using Autofac;
-using Autofac.Multitenant;
 
 namespace Microsoft.AspNetCore.Hosting
 {
