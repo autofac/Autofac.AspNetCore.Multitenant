@@ -41,9 +41,9 @@
       "launchBrowser": {
         "enabled": false
       },
-      "name": "Sandbox 5",
+      "name": "Sandbox 5-6",
       "preLaunchTask": "build",
-      "program": "${workspaceFolder}/samples/Sandbox.AspNetCore5/bin/Debug/net5.0/Sandbox.AspNetCore5.dll",
+      "program": "${workspaceFolder}/samples/Sandbox.AspNetCore5_To_6/bin/Debug/net6.0/Sandbox.AspNetCore5_To_6.dll",
       "request": "launch",
       "stopAtEntry": false,
       "type": "coreclr"
