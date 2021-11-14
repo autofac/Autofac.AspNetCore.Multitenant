@@ -2,15 +2,10 @@
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
 using System;
-using System.Collections.Generic;
-using System.Reflection;
 using Autofac;
-using Autofac.Builder;
 using Autofac.Extensions.DependencyInjection;
-using Autofac.Integration.AspNetCore.Multitenant;
 using Autofac.Integration.AspNetCore.Multitenant.Properties;
 using Autofac.Multitenant;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Microsoft.AspNetCore.Hosting
