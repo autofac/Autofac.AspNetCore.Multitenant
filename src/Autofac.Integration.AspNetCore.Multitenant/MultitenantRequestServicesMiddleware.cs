@@ -56,7 +56,8 @@ namespace Autofac.Integration.AspNetCore.Multitenant
             IServiceProvidersFeature existingFeature = null!;
             try
             {
-                var autofacFeature = RequestServicesFeatureFactory.CreateFeature(context, _multitenantContainer.Resolve<IServiceScopeFactory>());
+                var factory = _multitenantContainer.Resolve<IServiceScopeFactory>();
+                var autofacFeature = RequestServicesFeatureFactory.CreateFeature(context, factory);
 
                 if (autofacFeature is IDisposable disposable)
                 {

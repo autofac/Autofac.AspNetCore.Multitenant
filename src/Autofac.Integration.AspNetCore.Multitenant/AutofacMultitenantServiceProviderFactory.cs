@@ -4,6 +4,7 @@
 using System;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
+using Autofac.Integration.AspNetCore.Multitenant;
 using Autofac.Integration.AspNetCore.Multitenant.Properties;
 using Autofac.Multitenant;
 using Microsoft.Extensions.DependencyInjection;
@@ -64,6 +65,11 @@ namespace Microsoft.AspNetCore.Hosting
             containerBuilder.Register(_ => multitenantContainer)
               .AsSelf()
               .ExternallyOwned();
+
+            containerBuilder
+                .RegisterType<AutofacMultitenantServiceScopeFactory>()
+                .As<IServiceScopeFactory>()
+                .InstancePerDependency();
 
             multitenantContainer = _multitenantContainerAccessor(containerBuilder.Build());
 
