@@ -69,7 +69,7 @@ namespace Microsoft.AspNetCore.Hosting
             containerBuilder
                 .RegisterType<AutofacMultitenantServiceScopeFactory>()
                 .As<IServiceScopeFactory>()
-                .InstancePerDependency();
+                .InstancePerTenant();
 
             multitenantContainer = _multitenantContainerAccessor(containerBuilder.Build());
 
