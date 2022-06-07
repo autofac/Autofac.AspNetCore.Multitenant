@@ -38,16 +38,15 @@
     <AdditionalFiles Include="../../build/stylecop.json" Link="stylecop.json" />
   </ItemGroup>
 
-  <ItemGroup Condition="$(TargetFramework) == 'netstandard2.0'">
-    <PackageReference Include="Microsoft.AspNetCore.Hosting" Version="2.1.0" />
-  </ItemGroup>
-
-  <ItemGroup Condition="$(TargetFramework) != 'netstandard2.0'">
+  <ItemGroup>
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
   </ItemGroup>
 
+  <ItemGroup Condition="$(TargetFramework) != 'netcoreapp6.0'">
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.0" />
+  </ItemGroup>
+
   <ItemGroup>
-<!--    <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="7.2.0" />-->
     <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="8.0.0" />
     <PackageReference Include="Autofac.Multitenant" Version="6.0.0" />
     <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="2.6.1">
@@ -56,7 +55,6 @@
     <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.6.1">
       <PrivateAssets>All</PrivateAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.0" />
     <PackageReference Include="Microsoft.Net.RoslynDiagnostics" Version="2.6.1">
       <PrivateAssets>All</PrivateAssets>
     </PackageReference>
