@@ -2,6 +2,8 @@
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
 using System;
+using System.Collections.Concurrent;
+using System.Threading;
 using System.Threading.Tasks;
 using Autofac.Multitenant;
 using Microsoft.AspNetCore.Hosting;
@@ -22,8 +24,14 @@ namespace Autofac.Integration.AspNetCore.Multitenant
     /// Middleware that forces the request lifetime scope to be created from the multitenant container
     /// directly to avoid inadvertent incorrect tenant identification.
     /// </summary>
-    internal class MultitenantRequestServicesMiddleware
+    internal class MultitenantRequestServicesMiddleware : IDisposable
     {
+        private static readonly object RootCacheKey = "root";
+        private static readonly SemaphoreSlim Mutex = new SemaphoreSlim(1);
+
+        private readonly ConcurrentDictionary<object, IServiceScopeFactory> _serviceScopeFactoryByTenantCache =
+            new ConcurrentDictionary<object, IServiceScopeFactory>();
+
         private readonly IHttpContextAccessor _contextAccessor;
         private readonly RequestDelegate _next;
         private readonly MultitenantContainer _multitenantContainer;
@@ -48,7 +56,17 @@ namespace Autofac.Integration.AspNetCore.Multitenant
             _serviceScopeFactory = serviceScopeFactory;
         }
 
-        /// <summary>
+#pragma warning disable CA1063
+        /// <inheritdoc cref="IDisposable.Dispose"/>
+        public void Dispose()
+        {
+            _serviceScopeFactoryByTenantCache.Clear();
+            Mutex.Dispose();
+            GC.SuppressFinalize(this);
+        }
+#pragma warning restore
+
+/// <summary>
         /// Invokes the middleware using the specified context.
         /// </summary>
         /// <param name="context">
@@ -70,7 +88,7 @@ namespace Autofac.Integration.AspNetCore.Multitenant
             IServiceProvidersFeature existingFeature = null!;
             try
             {
-                var factory = _serviceScopeFactory.Invoke(_multitenantContainer.GetCurrentTenantScope());
+                var factory = await GetServiceScopeFactoryForTenantLifetimeScope(_contextAccessor.HttpContext.RequestAborted);
                 var autofacFeature = RequestServicesFeatureFactory.CreateFeature(context, factory);
 
                 if (autofacFeature is IDisposable disposable)
@@ -95,6 +113,30 @@ namespace Autofac.Integration.AspNetCore.Multitenant
                 // container level stuff resolved and after this middleware it needs
                 // to be what it was before.
                 context.Features.Set(existingFeature);
+            }
+        }
+
+        private async Task<IServiceScopeFactory> GetServiceScopeFactoryForTenantLifetimeScope(CancellationToken httpContextRequestAborted)
+        {
+            await Mutex.WaitAsync(httpContextRequestAborted);
+            try
+            {
+                object? tenantId = null;
+                _multitenantContainer.TenantIdentificationStrategy?.TryIdentifyTenant(out tenantId);
+                tenantId ??= RootCacheKey;
+
+                if (_serviceScopeFactoryByTenantCache.TryGetValue(tenantId, out var serviceScopeFactory))
+                {
+                    return serviceScopeFactory;
+                }
+
+                var factory = _serviceScopeFactory.Invoke(_multitenantContainer.GetCurrentTenantScope());
+                _serviceScopeFactoryByTenantCache.TryAdd(tenantId, factory);
+                return factory;
+            }
+            finally
+            {
+                Mutex.Release(1);
             }
         }
     }
