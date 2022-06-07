@@ -66,10 +66,16 @@ namespace Microsoft.AspNetCore.Hosting
               .AsSelf()
               .ExternallyOwned();
 
-            containerBuilder
-                .RegisterType<AutofacMultitenantServiceScopeFactory>()
-                .As<IServiceScopeFactory>()
-                .InstancePerTenant();
+            containerBuilder.Register<ServiceScopeFactory>(_ =>
+            {
+                return scope =>
+                {
+                    var autofacChildLifetimeScopeServiceProviderFactory = new AutofacChildLifetimeScopeServiceProviderFactory(scope, _configurationAction);
+                    var adapter = autofacChildLifetimeScopeServiceProviderFactory.CreateBuilder(new ServiceCollection());
+                    var serviceProvider = autofacChildLifetimeScopeServiceProviderFactory.CreateServiceProvider(adapter);
+                    return serviceProvider.GetRequiredService<IServiceScopeFactory>();
+                };
+            }).SingleInstance();
 
             multitenantContainer = _multitenantContainerAccessor(containerBuilder.Build());
 

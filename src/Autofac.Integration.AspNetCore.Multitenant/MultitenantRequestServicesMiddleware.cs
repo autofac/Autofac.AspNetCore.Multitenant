@@ -12,6 +12,13 @@ using Microsoft.Extensions.DependencyInjection;
 namespace Autofac.Integration.AspNetCore.Multitenant
 {
     /// <summary>
+    /// The factory used to retrieve the <see cref="IServiceScopeFactory"/>.
+    /// </summary>
+    /// <param name="lifetimeScope">The <see cref="ILifetimeScope"/> which can either be the root scope or dedicated tenant-scope.</param>
+    /// <returns>The <see cref="IServiceScopeFactory"/> for the specific <see cref="ILifetimeScope"/> which can either be the root scope or dedicated tenant-scope.</returns>
+    internal delegate IServiceScopeFactory ServiceScopeFactory(ILifetimeScope lifetimeScope);
+
+    /// <summary>
     /// Middleware that forces the request lifetime scope to be created from the multitenant container
     /// directly to avoid inadvertent incorrect tenant identification.
     /// </summary>
@@ -20,6 +27,7 @@ namespace Autofac.Integration.AspNetCore.Multitenant
         private readonly IHttpContextAccessor _contextAccessor;
         private readonly RequestDelegate _next;
         private readonly MultitenantContainer _multitenantContainer;
+        private readonly ServiceScopeFactory _serviceScopeFactory;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MultitenantRequestServicesMiddleware"/> class.
@@ -27,11 +35,17 @@ namespace Autofac.Integration.AspNetCore.Multitenant
         /// <param name="next">The next step in the request pipeline.</param>
         /// <param name="contextAccessor">The <see cref="IHttpContextAccessor"/> to set up with the current request context.</param>
         /// <param name="multitenantContainer">The <see cref="MultitenantContainer"/> registered through <see cref="AutofacMultitenantServiceProviderFactory"/>.</param>
-        public MultitenantRequestServicesMiddleware(RequestDelegate next, IHttpContextAccessor contextAccessor, MultitenantContainer multitenantContainer)
+        /// <param name="serviceScopeFactory">The function to access the <see cref="IServiceScopeFactory"/>.</param>
+        public MultitenantRequestServicesMiddleware(
+            RequestDelegate next,
+            IHttpContextAccessor contextAccessor,
+            MultitenantContainer multitenantContainer,
+            ServiceScopeFactory serviceScopeFactory)
         {
             _next = next;
             _contextAccessor = contextAccessor;
             _multitenantContainer = multitenantContainer;
+            _serviceScopeFactory = serviceScopeFactory;
         }
 
         /// <summary>
@@ -56,7 +70,7 @@ namespace Autofac.Integration.AspNetCore.Multitenant
             IServiceProvidersFeature existingFeature = null!;
             try
             {
-                var factory = _multitenantContainer.Resolve<IServiceScopeFactory>();
+                var factory = _serviceScopeFactory.Invoke(_multitenantContainer.GetCurrentTenantScope());
                 var autofacFeature = RequestServicesFeatureFactory.CreateFeature(context, factory);
 
                 if (autofacFeature is IDisposable disposable)
