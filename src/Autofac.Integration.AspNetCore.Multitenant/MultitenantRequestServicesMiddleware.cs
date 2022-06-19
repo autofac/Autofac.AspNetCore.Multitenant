@@ -2,8 +2,6 @@
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
 using System;
-using System.Collections.Concurrent;
-using System.Threading;
 using System.Threading.Tasks;
 using Autofac.Multitenant;
 using Microsoft.AspNetCore.Hosting;
@@ -18,7 +16,7 @@ namespace Autofac.Integration.AspNetCore.Multitenant
     /// </summary>
     /// <param name="lifetimeScope">The <see cref="ILifetimeScope"/> which can either be the root scope or dedicated tenant-scope.</param>
     /// <returns>The <see cref="IServiceScopeFactory"/> for the specific <see cref="ILifetimeScope"/> which can either be the root scope or dedicated tenant-scope.</returns>
-    internal delegate IServiceScopeFactory ServiceScopeFactory(ILifetimeScope lifetimeScope);
+    internal delegate IServiceScopeFactory ServiceScopeFactoryAccessor(ILifetimeScope lifetimeScope);
 
     /// <summary>
     /// Middleware that forces the request lifetime scope to be created from the multitenant container
@@ -68,7 +66,7 @@ namespace Autofac.Integration.AspNetCore.Multitenant
             IServiceProvidersFeature existingFeature = null!;
             try
             {
-                var serviceScopeFactoryAccessor = _multitenantContainer.Resolve<ServiceScopeFactory>();
+                var serviceScopeFactoryAccessor = _multitenantContainer.Resolve<ServiceScopeFactoryAccessor>();
                 var factory = serviceScopeFactoryAccessor.Invoke(_multitenantContainer.GetCurrentTenantScope());
                 var autofacFeature = RequestServicesFeatureFactory.CreateFeature(context, factory);
 

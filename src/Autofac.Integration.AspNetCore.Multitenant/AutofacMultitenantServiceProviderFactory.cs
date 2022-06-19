@@ -66,7 +66,7 @@ namespace Microsoft.AspNetCore.Hosting
               .AsSelf()
               .ExternallyOwned();
 
-            containerBuilder.Register<ServiceScopeFactory>(_ =>
+            containerBuilder.Register<ServiceScopeFactoryAccessor>(_ =>
             {
                 return scope =>
                 {
