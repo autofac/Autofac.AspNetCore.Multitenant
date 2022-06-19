@@ -2,21 +2,29 @@ using System;
 using Autofac.Multitenant;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection.Specification;
+using Xunit;
 
 namespace Autofac.Integration.AspNetCore.Multitenant.Test.Specification
 {
-    public class BuilderSpecificationTests : DependencyInjectionSpecificationTests
+    public class AssumedBehaviorTests
     {
-        public override bool SupportsIServiceProviderIsService => true;
+        [Fact]
+        public void ServiceScopeFactoryAccessor_ServiceScopeFactoryCreatedOncePerTenant()
+        {
+            var serviceProvider = CreateServiceProvider();
+            var mtc = serviceProvider.GetRequiredService<MultitenantContainer>();
+            var serviceScopeFactoryAccessor = mtc.Resolve<ServiceScopeFactoryAccessor>();
 
-        protected override IServiceProvider CreateServiceProvider(IServiceCollection serviceCollection)
-            => CreateServiceProviderFromCollection(serviceCollection);
+            var firstServiceScopeFactory = serviceScopeFactoryAccessor.Invoke(mtc.GetCurrentTenantScope());
+            var secondServiceScopeFactory = serviceScopeFactoryAccessor.Invoke(mtc.GetCurrentTenantScope());
 
-        private static IServiceProvider CreateServiceProviderFromCollection(IServiceCollection services)
+            Assert.Same(firstServiceScopeFactory, secondServiceScopeFactory);
+        }
+
+        private static IServiceProvider CreateServiceProvider()
         {
             var factory = new AutofacMultitenantServiceProviderFactory(CreateContainer);
-            var builder = factory.CreateBuilder(services);
+            var builder = factory.CreateBuilder(new ServiceCollection());
             return factory.CreateServiceProvider(builder);
         }
 
