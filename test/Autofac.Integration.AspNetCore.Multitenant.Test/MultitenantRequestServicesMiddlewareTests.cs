@@ -26,7 +26,7 @@ namespace Autofac.Integration.AspNetCore.Multitenant.Test
 
             var mtc = CreateServiceProvider().GetRequiredService<MultitenantContainer>();
 
-            var mw = new MultitenantRequestServicesMiddleware(next, accessor, mtc, _ => mtc.Resolve<IServiceScopeFactory>());
+            var mw = new MultitenantRequestServicesMiddleware(next, accessor, mtc);
             await mw.Invoke(context);
             Assert.NotSame(context, accessor.HttpContext);
         }
@@ -47,7 +47,7 @@ namespace Autofac.Integration.AspNetCore.Multitenant.Test
             var context = CreateContext();
             context.Features.Set<IServiceProvidersFeature>(originalFeature);
             var mtc = CreateServiceProvider().GetRequiredService<MultitenantContainer>();
-            var mw = new MultitenantRequestServicesMiddleware(next, accessor, mtc, _ => mtc.Resolve<IServiceScopeFactory>());
+            var mw = new MultitenantRequestServicesMiddleware(next, accessor, mtc);
 
             await mw.Invoke(context);
 
@@ -64,7 +64,7 @@ namespace Autofac.Integration.AspNetCore.Multitenant.Test
             var next = new RequestDelegate(ctx => Task.FromResult(0));
             var context = CreateContext();
             var mtc = CreateServiceProvider().GetRequiredService<MultitenantContainer>();
-            var mw = new MultitenantRequestServicesMiddleware(next, accessor, mtc, _ => mtc.Resolve<IServiceScopeFactory>());
+            var mw = new MultitenantRequestServicesMiddleware(next, accessor, mtc);
 
             await mw.Invoke(context);
 

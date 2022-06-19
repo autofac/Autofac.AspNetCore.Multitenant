@@ -75,7 +75,7 @@ namespace Microsoft.AspNetCore.Hosting
                     var serviceProvider = autofacChildLifetimeScopeServiceProviderFactory.CreateServiceProvider(adapter);
                     return serviceProvider.GetRequiredService<IServiceScopeFactory>();
                 };
-            }).SingleInstance();
+            }).InstancePerTenant();
 
             multitenantContainer = _multitenantContainerAccessor(containerBuilder.Build());
 

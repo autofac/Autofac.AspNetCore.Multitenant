@@ -24,18 +24,11 @@ namespace Autofac.Integration.AspNetCore.Multitenant
     /// Middleware that forces the request lifetime scope to be created from the multitenant container
     /// directly to avoid inadvertent incorrect tenant identification.
     /// </summary>
-    internal class MultitenantRequestServicesMiddleware : IDisposable
+    internal class MultitenantRequestServicesMiddleware
     {
-        private static readonly object RootCacheKey = "root";
-        private static readonly SemaphoreSlim Mutex = new SemaphoreSlim(1);
-
-        private readonly ConcurrentDictionary<object, IServiceScopeFactory> _serviceScopeFactoryByTenantCache =
-            new ConcurrentDictionary<object, IServiceScopeFactory>();
-
         private readonly IHttpContextAccessor _contextAccessor;
         private readonly RequestDelegate _next;
         private readonly MultitenantContainer _multitenantContainer;
-        private readonly ServiceScopeFactory _serviceScopeFactory;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MultitenantRequestServicesMiddleware"/> class.
@@ -43,28 +36,15 @@ namespace Autofac.Integration.AspNetCore.Multitenant
         /// <param name="next">The next step in the request pipeline.</param>
         /// <param name="contextAccessor">The <see cref="IHttpContextAccessor"/> to set up with the current request context.</param>
         /// <param name="multitenantContainer">The <see cref="MultitenantContainer"/> registered through <see cref="AutofacMultitenantServiceProviderFactory"/>.</param>
-        /// <param name="serviceScopeFactory">The function to access the <see cref="IServiceScopeFactory"/>.</param>
         public MultitenantRequestServicesMiddleware(
             RequestDelegate next,
             IHttpContextAccessor contextAccessor,
-            MultitenantContainer multitenantContainer,
-            ServiceScopeFactory serviceScopeFactory)
+            MultitenantContainer multitenantContainer)
         {
             _next = next;
             _contextAccessor = contextAccessor;
             _multitenantContainer = multitenantContainer;
-            _serviceScopeFactory = serviceScopeFactory;
         }
-
-#pragma warning disable CA1063
-        /// <inheritdoc cref="IDisposable.Dispose"/>
-        public void Dispose()
-        {
-            _serviceScopeFactoryByTenantCache.Clear();
-            Mutex.Dispose();
-            GC.SuppressFinalize(this);
-        }
-#pragma warning restore
 
 /// <summary>
         /// Invokes the middleware using the specified context.
@@ -88,7 +68,8 @@ namespace Autofac.Integration.AspNetCore.Multitenant
             IServiceProvidersFeature existingFeature = null!;
             try
             {
-                var factory = await GetServiceScopeFactoryForTenantLifetimeScope(_contextAccessor.HttpContext.RequestAborted);
+                var serviceScopeFactoryAccessor = _multitenantContainer.Resolve<ServiceScopeFactory>();
+                var factory = serviceScopeFactoryAccessor.Invoke(_multitenantContainer.GetCurrentTenantScope());
                 var autofacFeature = RequestServicesFeatureFactory.CreateFeature(context, factory);
 
                 if (autofacFeature is IDisposable disposable)
@@ -113,30 +94,6 @@ namespace Autofac.Integration.AspNetCore.Multitenant
                 // container level stuff resolved and after this middleware it needs
                 // to be what it was before.
                 context.Features.Set(existingFeature);
-            }
-        }
-
-        private async Task<IServiceScopeFactory> GetServiceScopeFactoryForTenantLifetimeScope(CancellationToken httpContextRequestAborted)
-        {
-            await Mutex.WaitAsync(httpContextRequestAborted);
-            try
-            {
-                object? tenantId = null;
-                _multitenantContainer.TenantIdentificationStrategy?.TryIdentifyTenant(out tenantId);
-                tenantId ??= RootCacheKey;
-
-                if (_serviceScopeFactoryByTenantCache.TryGetValue(tenantId, out var serviceScopeFactory))
-                {
-                    return serviceScopeFactory;
-                }
-
-                var factory = _serviceScopeFactory.Invoke(_multitenantContainer.GetCurrentTenantScope());
-                _serviceScopeFactoryByTenantCache.TryAdd(tenantId, factory);
-                return factory;
-            }
-            finally
-            {
-                Mutex.Release(1);
             }
         }
     }
