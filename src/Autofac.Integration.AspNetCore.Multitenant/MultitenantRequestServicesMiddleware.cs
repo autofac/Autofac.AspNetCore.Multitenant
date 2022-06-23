@@ -7,17 +7,9 @@ using Autofac.Multitenant;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Features;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace Autofac.Integration.AspNetCore.Multitenant
 {
-    /// <summary>
-    /// The factory used to retrieve the <see cref="IServiceScopeFactory"/>.
-    /// </summary>
-    /// <param name="lifetimeScope">The <see cref="ILifetimeScope"/> which can either be the root scope or dedicated tenant-scope.</param>
-    /// <returns>The <see cref="IServiceScopeFactory"/> for the specific <see cref="ILifetimeScope"/> which can either be the root scope or dedicated tenant-scope.</returns>
-    internal delegate IServiceScopeFactory ServiceScopeFactoryAccessor(ILifetimeScope lifetimeScope);
-
     /// <summary>
     /// Middleware that forces the request lifetime scope to be created from the multitenant container
     /// directly to avoid inadvertent incorrect tenant identification.
@@ -66,9 +58,8 @@ namespace Autofac.Integration.AspNetCore.Multitenant
             IServiceProvidersFeature existingFeature = null!;
             try
             {
-                var serviceScopeFactoryAccessor = _multitenantContainer.Resolve<ServiceScopeFactoryAccessor>();
-                var factory = serviceScopeFactoryAccessor.Invoke(_multitenantContainer.GetCurrentTenantScope());
-                var autofacFeature = RequestServicesFeatureFactory.CreateFeature(context, factory);
+                var serviceScopeFactoryAdapter = _multitenantContainer.Resolve<MultitenantServiceScopeFactoryAdapter>();
+                var autofacFeature = RequestServicesFeatureFactory.CreateFeature(context, serviceScopeFactoryAdapter.Factory);
 
                 if (autofacFeature is IDisposable disposable)
                 {
