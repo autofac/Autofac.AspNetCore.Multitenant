@@ -1,7 +1,10 @@
 {
   "cSpell.words": [
     "autofac",
-    "multitenant"
+    "cref",
+    "multitenancy",
+    "multitenant",
+    "xunit"
   ],
   "dotnet-test-explorer.runInParallel": true,
   "dotnet-test-explorer.testProjectPath": "test/**/*.Test.csproj"
