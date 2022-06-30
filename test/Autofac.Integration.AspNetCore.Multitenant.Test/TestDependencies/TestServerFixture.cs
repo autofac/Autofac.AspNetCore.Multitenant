@@ -3,7 +3,6 @@
 
 using System.Diagnostics.CodeAnalysis;
 using System.Net;
-using System.Net.Http;
 using Autofac.Multitenant;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -11,7 +10,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.DependencyInjection;
-using Xunit;
 
 namespace Autofac.Integration.AspNetCore.Multitenant.Test.TestDependencies
 {
@@ -29,10 +27,9 @@ namespace Autofac.Integration.AspNetCore.Multitenant.Test.TestDependencies
                     sp.AddSingleton<IServiceProviderFactory<ContainerBuilder>>(
                         new AutofacMultitenantServiceProviderFactory(Startup.CreateMultitenantContainer)));
             _server = new TestServer(webHostBuilder);
-            ApplicationClient = _server.CreateClient();
         }
 
-        public HttpClient ApplicationClient { get; }
+        public HttpClient GetApplicationClient() => _server.CreateClient();
 
         [SuppressMessage("CA1812", "CA1812", Justification = "Static classes can't be used as type arguments.")]
         private sealed class Startup
