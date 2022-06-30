@@ -2,8 +2,10 @@
   "cSpell.words": [
     "autofac",
     "cref",
+    "langword",
     "multitenancy",
     "multitenant",
+    "paramref",
     "xunit"
   ],
   "dotnet-test-explorer.runInParallel": true,
