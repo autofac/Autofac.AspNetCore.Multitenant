@@ -6,34 +6,33 @@ using Autofac.Multitenant;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 
-namespace Sandbox
+namespace Sandbox;
+
+public static class MultitenantContainerSetup
 {
-    public static class MultitenantContainerSetup
+    public static MultitenantContainer ConfigureMultitenantContainer(IContainer container)
     {
-        public static MultitenantContainer ConfigureMultitenantContainer(IContainer container)
-        {
-            var strategy = new QueryStringTenantIdentificationStrategy(
-                container.Resolve<IHttpContextAccessor>(),
-                container.Resolve<ILogger<QueryStringTenantIdentificationStrategy>>());
+        var strategy = new QueryStringTenantIdentificationStrategy(
+            container.Resolve<IHttpContextAccessor>(),
+            container.Resolve<ILogger<QueryStringTenantIdentificationStrategy>>());
 
-            var multitenantContainer = new MultitenantContainer(strategy, container);
+        var multitenantContainer = new MultitenantContainer(strategy, container);
 
-            multitenantContainer.ConfigureTenant(
-                "a",
-                cb => cb
-                    .RegisterType<Dependency>()
-                    .As<IDependency>()
-                    .WithProperty("Id", "a")
-                    .InstancePerLifetimeScope());
-            multitenantContainer.ConfigureTenant(
-                "b",
-                cb => cb
-                    .RegisterType<Dependency>()
-                    .As<IDependency>()
-                    .WithProperty("Id", "b")
-                    .InstancePerLifetimeScope());
+        multitenantContainer.ConfigureTenant(
+            "a",
+            cb => cb
+                .RegisterType<Dependency>()
+                .As<IDependency>()
+                .WithProperty("Id", "a")
+                .InstancePerLifetimeScope());
+        multitenantContainer.ConfigureTenant(
+            "b",
+            cb => cb
+                .RegisterType<Dependency>()
+                .As<IDependency>()
+                .WithProperty("Id", "b")
+                .InstancePerLifetimeScope());
 
-            return multitenantContainer;
-        }
+        return multitenantContainer;
     }
 }

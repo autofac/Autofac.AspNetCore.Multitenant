@@ -3,25 +3,24 @@
 
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Autofac.Integration.AspNetCore.Multitenant
+namespace Autofac.Integration.AspNetCore.Multitenant;
+
+/// <summary>
+/// An adapter that wraps the instance of <see cref="IServiceScopeFactory"/> for a specific tenant.
+/// </summary>
+public class MultitenantServiceScopeFactoryAdapter
 {
     /// <summary>
-    /// An adapter that wraps the instance of <see cref="IServiceScopeFactory"/> for a specific tenant.
+    /// Initializes a new instance of the <see cref="MultitenantServiceScopeFactoryAdapter"/> class.
     /// </summary>
-    public class MultitenantServiceScopeFactoryAdapter
+    /// <param name="factory">The <see cref="IServiceScopeFactory"/> for a specific tenant.</param>
+    public MultitenantServiceScopeFactoryAdapter(IServiceScopeFactory factory)
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="MultitenantServiceScopeFactoryAdapter"/> class.
-        /// </summary>
-        /// <param name="factory">The <see cref="IServiceScopeFactory"/> for a specific tenant.</param>
-        public MultitenantServiceScopeFactoryAdapter(IServiceScopeFactory factory)
-        {
-            Factory = factory;
-        }
-
-        /// <summary>
-        /// Gets the <see cref="IServiceScopeFactory"/> for a specific tenant.
-        /// </summary>
-        public IServiceScopeFactory Factory { get; }
+        Factory = factory;
     }
+
+    /// <summary>
+    /// Gets the <see cref="IServiceScopeFactory"/> for a specific tenant.
+    /// </summary>
+    public IServiceScopeFactory Factory { get; }
 }
