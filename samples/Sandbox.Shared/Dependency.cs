@@ -9,6 +9,7 @@ namespace Sandbox
     public class Dependency : IDependency, IDisposable
     {
         private readonly ILogger<Dependency> _logger;
+        private bool _disposedValue;
 
         public Dependency(ILogger<Dependency> logger)
         {
@@ -19,7 +20,22 @@ namespace Sandbox
 
         public void Dispose()
         {
-            _logger.LogInformation("Disposing dependency '{id}'.", Id);
+            // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
+            Dispose(disposing: true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!_disposedValue)
+            {
+                if (disposing)
+                {
+                    _logger.LogInformation("Disposing dependency '{Id}'.", Id);
+                }
+
+                _disposedValue = true;
+            }
         }
     }
 }

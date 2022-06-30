@@ -46,7 +46,7 @@ namespace Sandbox
             {
                 tenantId = tenantValues[0];
                 context.Items["_tenantId"] = tenantId;
-                _logger.LogInformation("Identified tenant: {tenant}", tenantId);
+                _logger.LogInformation("Identified tenant: {Tenant}", tenantId);
                 return true;
             }
 
