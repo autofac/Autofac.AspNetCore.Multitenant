@@ -9,6 +9,11 @@ namespace Autofac.Integration.AspNetCore.Multitenant.Test.TestDependencies
     {
         public TenantAccessorDependency(ITenantIdentificationStrategy tenantIdentificationStrategy)
         {
+            if (tenantIdentificationStrategy == null)
+            {
+                throw new ArgumentNullException(nameof(tenantIdentificationStrategy));
+            }
+
             if (tenantIdentificationStrategy.TryIdentifyTenant(out var tenantId) &&
                 tenantId is string currentTenant)
             {

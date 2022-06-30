@@ -12,12 +12,14 @@
     <Rule Id="CA1816" Action="None" />
     <!-- Mark members static - test methods may not access member data but also can't be static. -->
     <Rule Id="CA1822" Action="None" />
-    <!-- Implement serialization constructors - false positive when building .NET Core -->
-    <Rule Id="CA2229" Action="None" />
-    <!-- Mark ISerializable types with SerializableAttribute - false positive when building .NET Core -->
-    <Rule Id="CA2237" Action="None" />
     <!-- ConfigureAwait(false) is not required in ASP.NET Core. There is so SynchronizationContext. -->
     <Rule Id="CA2007" Action="None" />
+    <!-- Implement serialization constructors - false positive when building .NET Core -->
+    <Rule Id="CA2229" Action="None" />
+    <!--Pass System.Uri objects instead of strings - we don't need to be this strict in testing. -->
+    <Rule Id="CA2234" Action="None" />
+    <!-- Mark ISerializable types with SerializableAttribute - false positive when building .NET Core -->
+    <Rule Id="CA2237" Action="None" />
   </Rules>
   <Rules AnalyzerId="StyleCop.Analyzers" RuleNamespace="StyleCop.Analyzers">
     <!-- Prefix local calls with this -->

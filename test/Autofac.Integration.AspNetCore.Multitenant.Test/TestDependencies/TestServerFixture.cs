@@ -15,21 +15,26 @@ using Xunit;
 
 namespace Autofac.Integration.AspNetCore.Multitenant.Test.TestDependencies
 {
-    public class TestServerFixture
+    public class TestServerFixture : IDisposable
     {
-        public HttpClient GetApplicationClient()
+        private bool _disposedValue;
+
+        private readonly TestServer _server;
+
+        public TestServerFixture()
         {
             var webHostBuilder = new WebHostBuilder()
                 .UseStartup<Startup>()
                 .ConfigureServices(sp =>
                     sp.AddSingleton<IServiceProviderFactory<ContainerBuilder>>(
                         new AutofacMultitenantServiceProviderFactory(Startup.CreateMultitenantContainer)));
-
-            var testServer = new TestServer(webHostBuilder);
-
-            return testServer.CreateClient();
+            _server = new TestServer(webHostBuilder);
+            ApplicationClient = _server.CreateClient();
         }
 
+        public HttpClient ApplicationClient { get; }
+
+        [SuppressMessage("CA1812", "CA1812", Justification = "Static classes can't be used as type arguments.")]
         private sealed class Startup
         {
             public static MultitenantContainer CreateMultitenantContainer(IContainer container)
@@ -137,6 +142,26 @@ namespace Autofac.Integration.AspNetCore.Multitenant.Test.TestDependencies
                     });
                 });
             }
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!_disposedValue)
+            {
+                if (disposing)
+                {
+                    _server.Dispose();
+                }
+
+                _disposedValue = true;
+            }
+        }
+
+        public void Dispose()
+        {
+            // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
+            Dispose(disposing: true);
+            GC.SuppressFinalize(this);
         }
     }
 }
