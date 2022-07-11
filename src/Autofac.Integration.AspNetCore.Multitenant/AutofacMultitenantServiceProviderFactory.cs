@@ -22,7 +22,7 @@ public class AutofacMultitenantServiceProviderFactory : IServiceProviderFactory<
     /// Initializes a new instance of the <see cref="AutofacMultitenantServiceProviderFactory"/> class.
     /// </summary>
     /// <param name="multitenantContainerAccessor">A function that will access the multitenant container from which request lifetimes should be generated.</param>
-    /// <param name="configurationAction">Action on a <see cref="ContainerBuilder"/> that adds component registrations to the conatiner.</param>
+    /// <param name="configurationAction">Action on a <see cref="ContainerBuilder"/> that adds component registrations to the container.</param>
     /// <exception cref="System.ArgumentNullException">Throws when the multitenant container accessor is null.</exception>
     /// Thrown if <paramref name="multitenantContainerAccessor" /> is <see langword="null" />.
     public AutofacMultitenantServiceProviderFactory(Func<IContainer, MultitenantContainer>? multitenantContainerAccessor, Action<ContainerBuilder>? configurationAction = null)

@@ -6,6 +6,7 @@
     "multitenancy",
     "multitenant",
     "paramref",
+    "seealso",
     "xunit"
   ],
   "dotnet-test-explorer.runInParallel": true,

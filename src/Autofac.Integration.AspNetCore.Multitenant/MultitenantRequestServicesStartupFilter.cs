@@ -12,7 +12,7 @@ namespace Autofac.Integration.AspNetCore.Multitenant;
 /// or the multitenant request services may not happen until after the standard
 /// request services middleware has already run.
 /// </summary>
-/// <seealso cref="Microsoft.AspNetCore.Hosting.IStartupFilter" />
+/// <seealso cref="IStartupFilter" />
 internal class MultitenantRequestServicesStartupFilter : IStartupFilter
 {
     /// <summary>
