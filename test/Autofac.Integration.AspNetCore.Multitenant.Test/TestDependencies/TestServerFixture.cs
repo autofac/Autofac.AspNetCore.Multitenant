@@ -61,7 +61,7 @@ public class TestServerFixture : IDisposable
             services
                 .AddAutofacMultitenantRequestServices()
                 .AddTransient(provider => new WhoAmIDependency("base"))
-                .AddSingleton<ITenantAccessor, TenantAccessorDependency>()
+                .AddTransient<ITenantAccessor, TenantAccessorDependency>()
                 .AddSingleton<ITenantIdentificationStrategy, TestableTenantIdentificationStrategy>()
                 .AddRouting()
 
