@@ -48,22 +48,20 @@ internal class MultitenantRequestServicesMiddleware
         // If there isn't already an HttpContext set on the context
         // accessor for this async/thread operation, set it. This allows
         // tenant identification to use it.
-        if (_contextAccessor.HttpContext == null)
-        {
-            _contextAccessor.HttpContext = context;
-        }
+        _contextAccessor.HttpContext ??= context;
 
         IServiceProvidersFeature existingFeature = null!;
         try
         {
             var serviceScopeFactoryAdapter = _multitenantContainer.Resolve<MultitenantServiceScopeFactoryAdapter>();
 
-// The feature will be disposed at the end of the response, not here.
-#pragma warning disable CA2000
-            var autofacFeature = new RequestServicesFeature(context, serviceScopeFactoryAdapter.Factory);
-#pragma warning restore
+            // The feature will be disposed at the end of the response, not here.
+            var autofacFeature = RequestServicesFeatureFactory.CreateFeature(context, serviceScopeFactoryAdapter.Factory);
 
-            context.Response.RegisterForDispose(autofacFeature);
+            if (autofacFeature is IDisposable disposable)
+            {
+                context.Response.RegisterForDispose(disposable);
+            }
 
             existingFeature = context.Features.Get<IServiceProvidersFeature>()!;
             context.Features.Set(autofacFeature);
