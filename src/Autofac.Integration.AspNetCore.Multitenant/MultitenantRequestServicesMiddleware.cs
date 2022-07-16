@@ -55,13 +55,12 @@ internal class MultitenantRequestServicesMiddleware
         {
             var serviceScopeFactoryAdapter = _multitenantContainer.Resolve<MultitenantServiceScopeFactoryAdapter>();
 
-            // The feature will be disposed at the end of the response, not here.
-            var autofacFeature = RequestServicesFeatureFactory.CreateFeature(context, serviceScopeFactoryAdapter.Factory);
+// The feature will be disposed at the end of the response, not here.
+#pragma warning disable CA2000
+            var autofacFeature = new RequestServicesFeature(context, serviceScopeFactoryAdapter.Factory);
+#pragma warning restore
 
-            if (autofacFeature is IDisposable disposable)
-            {
-                context.Response.RegisterForDispose(disposable);
-            }
+            context.Response.RegisterForDisposeAsync(autofacFeature);
 
             existingFeature = context.Features.Get<IServiceProvidersFeature>()!;
             context.Features.Set<IServiceProvidersFeature>(autofacFeature);
