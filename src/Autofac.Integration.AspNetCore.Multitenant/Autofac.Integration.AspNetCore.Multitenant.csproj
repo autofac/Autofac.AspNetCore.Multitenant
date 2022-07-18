@@ -58,7 +58,8 @@
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
   </ItemGroup>
 
-  <ItemGroup Condition="$(TargetFramework) != 'netcoreapp6.0'">
+  <ItemGroup Condition="$(TargetFramework) != 'net6.0'">
+    <!-- ServiceCollection moved from M.E.DI to M.E.DI.Abstractions in v6.0.0 -->
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.0" />
   </ItemGroup>
 
