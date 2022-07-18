@@ -2,31 +2,27 @@
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
 using Autofac;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.DependencyInjection;
 
-namespace Sandbox
+namespace Sandbox;
+
+public class Startup
 {
-    public class Startup
+    public void ConfigureServices(IServiceCollection services)
     {
-        public void ConfigureServices(IServiceCollection services)
-        {
-            services
-                .AddAutofacMultitenantRequestServices()
-                .AddControllers();
-        }
+        services
+            .AddAutofacMultitenantRequestServices()
+            .AddControllers();
+    }
 
-        public void ConfigureContainer(ContainerBuilder builder)
-        {
-            ContainerSetup.SetupContainer(builder);
-        }
+    public void ConfigureContainer(ContainerBuilder builder)
+    {
+        ContainerSetup.SetupContainer(builder);
+    }
 
-        public void Configure(IApplicationBuilder app)
-        {
-            app.UseRouting();
+    public void Configure(IApplicationBuilder app)
+    {
+        app.UseRouting();
 
-            app.UseEndpoints(builder => builder.MapControllers());
-        }
+        app.UseEndpoints(builder => builder.MapControllers());
     }
 }

@@ -3,16 +3,15 @@
 
 using Autofac;
 
-namespace Sandbox
+namespace Sandbox;
+
+public static class ContainerSetup
 {
-    public static class ContainerSetup
+    public static void SetupContainer(ContainerBuilder builder)
     {
-        public static void SetupContainer(ContainerBuilder builder)
-        {
-            builder.RegisterType<Dependency>()
-                .As<IDependency>()
-                .WithProperty("Id", "base")
-                .InstancePerLifetimeScope();
-        }
+        builder.RegisterType<Dependency>()
+            .As<IDependency>()
+            .WithProperty("Id", "base")
+            .InstancePerLifetimeScope();
     }
 }

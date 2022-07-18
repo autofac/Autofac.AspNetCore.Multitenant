@@ -3,23 +3,22 @@
 
 using Microsoft.AspNetCore.Mvc;
 
-namespace Sandbox
+namespace Sandbox;
+
+[ApiController]
+[Route("api/[controller]")]
+public class ValuesController : ControllerBase
 {
-    [ApiController]
-    [Route("api/[controller]")]
-    public class ValuesController : ControllerBase
+    public ValuesController(IDependency dependency)
     {
-        public ValuesController(IDependency dependency)
-        {
-            Dependency = dependency;
-        }
+        Dependency = dependency;
+    }
 
-        public IDependency Dependency { get; set; }
+    public IDependency Dependency { get; set; }
 
-        [HttpGet]
-        public string Get()
-        {
-            return Dependency.Id;
-        }
+    [HttpGet]
+    public string Get()
+    {
+        return Dependency.Id;
     }
 }

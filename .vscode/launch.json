@@ -9,22 +9,6 @@
       "launchBrowser": {
         "enabled": false
       },
-      "name": "Sandbox 2.1-2.2",
-      "preLaunchTask": "build",
-      "program": "${workspaceFolder}/samples/Sandbox.AspNetCore2_1_To_2_2/bin/Debug/netcoreapp2.1/Sandbox.AspNetCore2_1_To_2_2.dll",
-      "request": "launch",
-      "stopAtEntry": false,
-      "type": "coreclr"
-    },
-    {
-      "cwd": "${workspaceFolder}",
-      "env": {
-        "ASPNETCORE_ENVIRONMENT": "Development",
-        "ASPNETCORE_URLS": "http://localhost:5555"
-      },
-      "launchBrowser": {
-        "enabled": false
-      },
       "name": "Sandbox 2-3.1",
       "preLaunchTask": "build",
       "program": "${workspaceFolder}/samples/Sandbox.AspNetCore3_To_3_1/bin/Debug/netcoreapp3.1/Sandbox.AspNetCore3_To_3_1.dll",

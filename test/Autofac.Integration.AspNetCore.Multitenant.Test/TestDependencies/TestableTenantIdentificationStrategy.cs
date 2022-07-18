@@ -4,33 +4,27 @@
 using Autofac.Multitenant;
 using Microsoft.AspNetCore.Http;
 
-namespace Autofac.Integration.AspNetCore.Multitenant.Test.TestDependencies
+namespace Autofac.Integration.AspNetCore.Multitenant.Test.TestDependencies;
+
+public sealed class TestableTenantIdentificationStrategy : ITenantIdentificationStrategy
 {
-    public sealed class TestableTenantIdentificationStrategy : ITenantIdentificationStrategy
+    private readonly IHttpContextAccessor _httpContextAccessor;
+
+    public TestableTenantIdentificationStrategy(IHttpContextAccessor httpContextAccessor)
     {
-        private readonly IHttpContextAccessor _httpContextAccessor;
+        _httpContextAccessor = httpContextAccessor;
+    }
 
-        public TestableTenantIdentificationStrategy(IHttpContextAccessor httpContextAccessor)
+    public bool TryIdentifyTenant(out object tenantId)
+    {
+        tenantId = null!;
+        var context = _httpContextAccessor.HttpContext;
+        if (context is null || !context.Request.Query.TryGetValue("tenant", out var tenantValues))
         {
-            _httpContextAccessor = httpContextAccessor;
+            return false;
         }
 
-        public bool TryIdentifyTenant(out object tenantId)
-        {
-            tenantId = null!;
-
-            if (_httpContextAccessor.HttpContext is null)
-            {
-                return false;
-            }
-
-            if (!_httpContextAccessor.HttpContext.Request.Query.TryGetValue("tenant", out var tenantValues))
-            {
-                return false;
-            }
-
-            tenantId = tenantValues[0];
-            return true;
-        }
+        tenantId = tenantValues[0];
+        return true;
     }
 }
