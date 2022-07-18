@@ -5,11 +5,11 @@
 # 4: dotnet / NuGet package restore failure
 
 <#
- .SYNOPSIS
-  Gets the set of directories in which projects are available for compile/processing.
+.SYNOPSIS
+    Gets the set of directories in which projects are available for compile/processing.
 
- .PARAMETER RootPath
-  Path where searching for project directories should begin.
+.PARAMETER RootPath
+    Path where searching for project directories should begin.
 #>
 function Get-DotNetProjectDirectory {
     [CmdletBinding()]
@@ -115,39 +115,39 @@ function Invoke-DotNetBuild {
 }
 
 <#
- .SYNOPSIS
-  Invokes the dotnet utility to package a project.
+.SYNOPSIS
+    Invokes the dotnet utility to package a project.
 
- .PARAMETER ProjectDirectory
-  Path to the directory containing the project to package.
+.PARAMETER ProjectDirectory
+    Path to the directory containing the project to package.
 
- .PARAMETER PackagesPath
-  Path to the "artifacts/packages" folder where packages should go.
+.PARAMETER PackagesPath
+    Path to the "artifacts/packages" folder where packages should go.
 
- .PARAMETER VersionSuffix
-  The version suffix to use for the NuGet package version.
+.PARAMETER VersionSuffix
+    The version suffix to use for the NuGet package version.
 #>
 function Invoke-DotNetPack {
-  [CmdletBinding()]
-  Param(
-    [Parameter(Mandatory = $True, ValueFromPipeline = $True, ValueFromPipelineByPropertyName = $True)]
-    [ValidateNotNull()]
-    [System.IO.DirectoryInfo[]]
-    $ProjectDirectory,
-
-            [Parameter(Mandatory = $True, ValueFromPipeline = $False)]
-    [ValidateNotNull()]
-    [System.IO.DirectoryInfo]
-    $PackagesPath,
+    [CmdletBinding()]
+    Param(
+        [Parameter(Mandatory = $True, ValueFromPipeline = $True, ValueFromPipelineByPropertyName = $True)]
+        [ValidateNotNull()]
+        [System.IO.DirectoryInfo[]]
+        $ProjectDirectory,
 
         [Parameter(Mandatory = $True, ValueFromPipeline = $False)]
-    [AllowEmptyString()]
-    [string]
-    $VersionSuffix
-  )
-  Begin {
-    New-Item -Path $PackagesPath -ItemType Directory -Force | Out-Null
-  }
+        [ValidateNotNull()]
+        [System.IO.DirectoryInfo]
+        $PackagesPath,
+
+        [Parameter(Mandatory = $True, ValueFromPipeline = $False)]
+        [AllowEmptyString()]
+        [string]
+        $VersionSuffix
+    )
+    Begin {
+        New-Item -Path $PackagesPath -ItemType Directory -Force | Out-Null
+    }
     Process {
         foreach ($Project in $ProjectDirectory) {
             if ($VersionSuffix -eq "") {
@@ -212,11 +212,11 @@ function Invoke-Test {
 }
 
 <#
- .SYNOPSIS
-  Restores dependencies using the dotnet utility.
+.SYNOPSIS
+    Restores dependencies using the dotnet utility.
 
- .PARAMETER ProjectDirectory
-  Path to the directory containing the project with dependencies to restore.
+.PARAMETER ProjectDirectory
+    Path to the directory containing the project with dependencies to restore.
 #>
 function Restore-DependencyPackages {
     [CmdletBinding()]

@@ -3,19 +3,23 @@
 
 using Autofac.Multitenant;
 
-namespace Autofac.Integration.AspNetCore.Multitenant.Test.TestDependencies
+namespace Autofac.Integration.AspNetCore.Multitenant.Test.TestDependencies;
+
+public sealed class TenantAccessorDependency : ITenantAccessor
 {
-    public sealed class TenantAccessorDependency : ITenantAccessor
+    public TenantAccessorDependency(ITenantIdentificationStrategy tenantIdentificationStrategy)
     {
-        public TenantAccessorDependency(ITenantIdentificationStrategy tenantIdentificationStrategy)
+        if (tenantIdentificationStrategy == null)
         {
-            if (tenantIdentificationStrategy.TryIdentifyTenant(out var tenantId) &&
-                tenantId is string currentTenant)
-            {
-                CurrentTenant = currentTenant;
-            }
+            throw new ArgumentNullException(nameof(tenantIdentificationStrategy));
         }
 
-        public string? CurrentTenant { get; }
+        if (tenantIdentificationStrategy.TryIdentifyTenant(out var tenantId) &&
+            tenantId is string currentTenant)
+        {
+            CurrentTenant = currentTenant;
+        }
     }
+
+    public string? CurrentTenant { get; }
 }

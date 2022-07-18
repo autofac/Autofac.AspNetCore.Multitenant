@@ -1,12 +1,9 @@
 // Copyright (c) Autofac Project. All rights reserved.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
-using System;
+namespace Autofac.Integration.AspNetCore.Multitenant.Test.TestDependencies;
 
-namespace Autofac.Integration.AspNetCore.Multitenant.Test.TestDependencies
+public interface IScopedDependency
 {
-    public interface IScopedDependency
-    {
-        Guid Id { get; }
-    }
+    Guid Id { get; }
 }
