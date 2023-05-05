@@ -90,7 +90,7 @@ public class MultitenantRequestServicesMiddlewareTests
         return context;
     }
 
-    private class TestHttpResponseFeature : HttpResponseFeature
+    private sealed class TestHttpResponseFeature : HttpResponseFeature
     {
         public override void OnCompleted(Func<object, Task> callback, object state)
         {

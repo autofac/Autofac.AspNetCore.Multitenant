@@ -34,7 +34,7 @@ public class AssumedBehaviorTests
         return mtc;
     }
 
-    private class StaticTenantIdentificationStrategy : ITenantIdentificationStrategy
+    private sealed class StaticTenantIdentificationStrategy : ITenantIdentificationStrategy
     {
         public bool TryIdentifyTenant(out object tenantId)
         {

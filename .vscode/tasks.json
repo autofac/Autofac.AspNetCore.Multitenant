@@ -1,19 +1,42 @@
 {
-  "tasks": [{
-    "args": [
-      "build",
-      "${workspaceFolder}/Autofac.AspNetCore.Multitenant.sln",
-      "/property:GenerateFullPaths=true",
-      "/consoleloggerparameters:NoSummary"
-    ],
-    "command": "dotnet",
-    "group": {
-      "isDefault": true,
-      "kind": "build"
+  "tasks": [
+    {
+      "args": [
+        "build",
+        "${workspaceFolder}/Autofac.AspNetCore.Multitenant.sln",
+        "/property:GenerateFullPaths=true",
+        "/consoleloggerparameters:NoSummary"
+      ],
+      "command": "dotnet",
+      "group": {
+        "isDefault": true,
+        "kind": "build"
+      },
+      "label": "build",
+      "presentation": {
+        "reveal": "silent"
+      },
+      "problemMatcher": "$msCompile",
+      "type": "shell"
     },
-    "label": "build",
-    "problemMatcher": "$msCompile",
-    "type": "process"
-  }],
+    {
+      "args": [
+        "test",
+        "${workspaceFolder}/Autofac.AspNetCore.Multitenant.sln",
+        "/property:GenerateFullPaths=true",
+        "/consoleloggerparameters:NoSummary",
+        "--filter",
+        "FullyQualifiedName!~Benchmark"
+      ],
+      "command": "dotnet",
+      "group": {
+        "isDefault": true,
+        "kind": "test"
+      },
+      "label": "test",
+      "problemMatcher": "$msCompile",
+      "type": "process"
+    }
+  ],
   "version": "2.0.0"
 }

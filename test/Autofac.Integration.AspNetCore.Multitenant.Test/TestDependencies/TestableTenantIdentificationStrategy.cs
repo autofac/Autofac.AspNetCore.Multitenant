@@ -24,7 +24,7 @@ public sealed class TestableTenantIdentificationStrategy : ITenantIdentification
             return false;
         }
 
-        tenantId = tenantValues[0];
+        tenantId = tenantValues[0]!;
         return true;
     }
 }
