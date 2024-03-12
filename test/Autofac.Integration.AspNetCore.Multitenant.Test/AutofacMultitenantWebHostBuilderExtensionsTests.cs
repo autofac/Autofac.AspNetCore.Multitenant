@@ -12,14 +12,11 @@ public class AutofacMultitenantWebHostBuilderExtensionsTests
     [Fact]
     public void UseAutofacMultitenantRequestServices_AddsHttpContextAccessor()
     {
-        var webHostBuilder = new Mock<IWebHostBuilder>();
+        var webHostBuilder = Substitute.For<IWebHostBuilder>();
 
         var services = new ServiceCollection();
-        webHostBuilder
-            .Setup(x => x.ConfigureServices(It.IsAny<Action<IServiceCollection>>()))
-            .Callback<Action<IServiceCollection>>(s => s(services));
-
-        webHostBuilder.Object.UseAutofacMultitenantRequestServices();
+        webHostBuilder.ConfigureServices(Arg.Do<Action<IServiceCollection>>(s => s(services)));
+        webHostBuilder.UseAutofacMultitenantRequestServices();
 
         var serviceProvider = services.BuildServiceProvider();
         var accessor = serviceProvider.GetService<IHttpContextAccessor>();
@@ -30,14 +27,12 @@ public class AutofacMultitenantWebHostBuilderExtensionsTests
     [Fact]
     public void UseAutofacMultitenantRequestServices_AddsStartupFilter()
     {
-        var webHostBuilder = new Mock<IWebHostBuilder>();
+        var webHostBuilder = Substitute.For<IWebHostBuilder>();
 
         var services = new ServiceCollection();
-        webHostBuilder
-            .Setup(x => x.ConfigureServices(It.IsAny<Action<IServiceCollection>>()))
-            .Callback<Action<IServiceCollection>>(s => s(services));
+        webHostBuilder.ConfigureServices(Arg.Do<Action<IServiceCollection>>(s => s(services)));
 
-        webHostBuilder.Object.UseAutofacMultitenantRequestServices();
+        webHostBuilder.UseAutofacMultitenantRequestServices();
 
         var serviceProvider = services.BuildServiceProvider();
         var filter = serviceProvider.GetService<IStartupFilter>();
