@@ -24,14 +24,9 @@ public static class AutofacMultitenantServiceCollectionExtensions
     /// </exception>
     public static IServiceCollection AddAutofacMultitenantRequestServices(this IServiceCollection services)
     {
-        if (services == null)
-        {
-            throw new ArgumentNullException(nameof(services));
-        }
-
+        ArgumentNullException.ThrowIfNull(services);
         services.Insert(0, ServiceDescriptor.Transient<IStartupFilter>(provider => new MultitenantRequestServicesStartupFilter()));
         services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-
         return services;
     }
 }
