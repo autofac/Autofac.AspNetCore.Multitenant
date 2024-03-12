@@ -20,11 +20,7 @@ public static class AutofacMultitenantWebHostBuilderExtensions
     /// </exception>
     public static IWebHostBuilder UseAutofacMultitenantRequestServices(this IWebHostBuilder builder)
     {
-        if (builder == null)
-        {
-            throw new ArgumentNullException(nameof(builder));
-        }
-
+        ArgumentNullException.ThrowIfNull(builder);
         return builder.ConfigureServices(services =>
         {
             services.AddAutofacMultitenantRequestServices();

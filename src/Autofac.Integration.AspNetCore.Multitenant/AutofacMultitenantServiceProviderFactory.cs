@@ -54,10 +54,7 @@ public class AutofacMultitenantServiceProviderFactory : IServiceProviderFactory<
     /// <returns>An <see cref="IServiceProvider" />.</returns>
     public IServiceProvider CreateServiceProvider(ContainerBuilder containerBuilder)
     {
-        if (containerBuilder == null)
-        {
-            throw new ArgumentNullException(nameof(containerBuilder));
-        }
+        ArgumentNullException.ThrowIfNull(containerBuilder);
 
         MultitenantContainer multitenantContainer = null!;
 

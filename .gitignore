@@ -170,5 +170,5 @@ $RECYCLE.BIN/
 # Mac crap
 .DS_Store
 
-# Rider crap
+# JetBrains Rider
 .idea

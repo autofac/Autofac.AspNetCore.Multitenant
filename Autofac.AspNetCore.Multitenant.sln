@@ -19,8 +19,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		codecov.yml = codecov.yml
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sandbox.AspNetCore3_To_3_1", "samples\Sandbox.AspNetCore3_To_3_1\Sandbox.AspNetCore3_To_3_1.csproj", "{12445470-D348-467F-8D3F-FBD6EF525CEE}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{8C9BBEEC-0C4B-4ECD-B927-63899C265FB4}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{5227B99C-6D0F-4E7B-9DF8-82C53488E173}"
@@ -39,7 +37,7 @@ ProjectSection(SolutionItems) = preProject
 	build\stylecop.json = build\stylecop.json
 EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sandbox.AspNetCore5_To_7", "samples\Sandbox.AspNetCore5_To_7\Sandbox.AspNetCore5_To_7.csproj", "{B64B6D62-AD07-49BE-AF65-3E4C92284AD5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sandbox.AspNetCore6", "samples\Sandbox.AspNetCore6\Sandbox.AspNetCore6.csproj", "{B64B6D62-AD07-49BE-AF65-3E4C92284AD5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -55,10 +53,6 @@ Global
 		{BA923A91-3A4B-40CE-8788-70A641694945}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BA923A91-3A4B-40CE-8788-70A641694945}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BA923A91-3A4B-40CE-8788-70A641694945}.Release|Any CPU.Build.0 = Release|Any CPU
-		{12445470-D348-467F-8D3F-FBD6EF525CEE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{12445470-D348-467F-8D3F-FBD6EF525CEE}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{12445470-D348-467F-8D3F-FBD6EF525CEE}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{12445470-D348-467F-8D3F-FBD6EF525CEE}.Release|Any CPU.Build.0 = Release|Any CPU
 		{C1C581D6-57C2-4448-BF83-59C39CED7ABC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{C1C581D6-57C2-4448-BF83-59C39CED7ABC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C1C581D6-57C2-4448-BF83-59C39CED7ABC}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -74,7 +68,6 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{241CD558-86C8-493B-9FA1-D913167D527C} = {8C9BBEEC-0C4B-4ECD-B927-63899C265FB4}
 		{BA923A91-3A4B-40CE-8788-70A641694945} = {5227B99C-6D0F-4E7B-9DF8-82C53488E173}
-		{12445470-D348-467F-8D3F-FBD6EF525CEE} = {BD3275CD-8B4C-4CEA-8DDB-BEF386DD48B5}
 		{C1C581D6-57C2-4448-BF83-59C39CED7ABC} = {BD3275CD-8B4C-4CEA-8DDB-BEF386DD48B5}
 		{B64B6D62-AD07-49BE-AF65-3E4C92284AD5} = {BD3275CD-8B4C-4CEA-8DDB-BEF386DD48B5}
 	EndGlobalSection
