@@ -3,7 +3,17 @@
 
 namespace Sandbox;
 
+/// <summary>
+/// Simple dependency interface to provide a way to differentiate between components.
+/// </summary>
 public interface IDependency
 {
+    /// <summary>
+    /// Gets a unique identifier for the component.
+    /// </summary>
+    /// <value>
+    /// A <see cref="string"/> that can be used to illustrate which dependency
+    /// is being resolved by a given tenant.
+    /// </value>
     string Id { get; }
 }

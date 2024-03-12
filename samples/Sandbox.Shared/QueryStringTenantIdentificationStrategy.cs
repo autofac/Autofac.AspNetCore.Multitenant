@@ -8,21 +8,44 @@ using Microsoft.Extensions.Primitives;
 
 namespace Sandbox;
 
+/// <summary>
+/// Tenant identification strategy that uses a query string parameter to determine the current tenant.
+/// </summary>
 public class QueryStringTenantIdentificationStrategy : ITenantIdentificationStrategy
 {
+    private static readonly Action<ILogger, object?, Exception?> LogTenantIdentified = LoggerMessage.Define<object?>(LogLevel.Information, new EventId(0), "Identified tenant: {Tenant}");
+    private static readonly Action<ILogger, Exception?> LogNoTenantIdentity = LoggerMessage.Define(LogLevel.Warning, new EventId(1), "Unable to identify tenant from query string. Falling back to default.");
     private readonly ILogger<QueryStringTenantIdentificationStrategy> _logger;
+    private readonly IHttpContextAccessor _accessor;
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="QueryStringTenantIdentificationStrategy"/> class.
+    /// </summary>
+    /// <param name="accessor">
+    /// An <see cref="IHttpContextAccessor"/> that can provide the current request context.
+    /// </param>
+    /// <param name="logger">
+    /// The logger for diagnostic messages.
+    /// </param>
     public QueryStringTenantIdentificationStrategy(IHttpContextAccessor accessor, ILogger<QueryStringTenantIdentificationStrategy> logger)
     {
-        Accessor = accessor;
+        _accessor = accessor;
         _logger = logger;
     }
 
-    public IHttpContextAccessor Accessor { get; private set; }
-
-    public bool TryIdentifyTenant(out object tenantId)
+    /// <summary>
+    /// Attempts to identify the tenant from the current request query string.
+    /// </summary>
+    /// <param name="tenantId">
+    /// The current tenant identifier.
+    /// </param>
+    /// <returns>
+    /// <see langword="true" /> if the tenant could be identified; <see langword="false" />
+    /// if not.
+    /// </returns>
+    public bool TryIdentifyTenant(out object? tenantId)
     {
-        var context = Accessor.HttpContext;
+        var context = _accessor.HttpContext;
         if (context == null)
         {
             // No current HttpContext. This happens during app startup
@@ -46,11 +69,11 @@ public class QueryStringTenantIdentificationStrategy : ITenantIdentificationStra
         {
             tenantId = tenantValues[0];
             context.Items["_tenantId"] = tenantId;
-            _logger.LogInformation("Identified tenant: {Tenant}", tenantId);
+            LogTenantIdentified(_logger, tenantId, null);
             return true;
         }
 
-        _logger.LogWarning("Unable to identify tenant from query string. Falling back to default.");
+        LogNoTenantIdentity(_logger, null);
         tenantId = null;
         context.Items["_tenantId"] = null;
         return false;
