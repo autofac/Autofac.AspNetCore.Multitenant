@@ -9,11 +9,7 @@ public sealed class TenantAccessorDependency : ITenantAccessor
 {
     public TenantAccessorDependency(ITenantIdentificationStrategy tenantIdentificationStrategy)
     {
-        if (tenantIdentificationStrategy == null)
-        {
-            throw new ArgumentNullException(nameof(tenantIdentificationStrategy));
-        }
-
+        ArgumentNullException.ThrowIfNull(tenantIdentificationStrategy);
         if (tenantIdentificationStrategy.TryIdentifyTenant(out var tenantId) &&
             tenantId is string currentTenant)
         {

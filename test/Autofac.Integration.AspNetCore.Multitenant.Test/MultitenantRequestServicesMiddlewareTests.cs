@@ -17,7 +17,7 @@ public class MultitenantRequestServicesMiddlewareTests
     {
         var accessor = Mock.Of<IHttpContextAccessor>();
         accessor.HttpContext = new DefaultHttpContext();
-        var next = new RequestDelegate(ctx => Task.FromResult(0));
+        var next = new RequestDelegate(ctx => Task.CompletedTask);
         var context = CreateContext();
 
         var mtc = CreateServiceProvider().GetRequiredService<MultitenantContainer>();
@@ -38,7 +38,7 @@ public class MultitenantRequestServicesMiddlewareTests
             // an updated request services feature.
             var currentFeature = ctx.Features.Get<IServiceProvidersFeature>();
             Assert.NotSame(originalFeature, currentFeature);
-            return Task.FromResult(0);
+            return Task.CompletedTask;
         });
         var context = CreateContext();
         context.Features.Set<IServiceProvidersFeature>(originalFeature);
@@ -57,7 +57,7 @@ public class MultitenantRequestServicesMiddlewareTests
     public async Task Invoke_SetsHttpContextOnAccessor()
     {
         var accessor = Mock.Of<IHttpContextAccessor>();
-        var next = new RequestDelegate(ctx => Task.FromResult(0));
+        var next = new RequestDelegate(ctx => Task.CompletedTask);
         var context = CreateContext();
         var mtc = CreateServiceProvider().GetRequiredService<MultitenantContainer>();
         var mw = new MultitenantRequestServicesMiddleware(next, accessor, mtc);
