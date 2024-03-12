@@ -2,8 +2,7 @@
   "recommendations": [
     "davidanson.vscode-markdownlint",
     "editorconfig.editorconfig",
-    "formulahendry.dotnet-test-explorer",
-    "ms-dotnettools.csharp",
+    "ms-dotnettools.csdevkit",
     "stkb.rewrap"
   ]
 }
