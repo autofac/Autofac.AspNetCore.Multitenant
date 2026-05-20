@@ -34,7 +34,7 @@ internal class MultitenantRequestServicesMiddleware
         _multitenantContainer = multitenantContainer;
     }
 
-/// <summary>
+    /// <summary>
     /// Invokes the middleware using the specified context.
     /// </summary>
     /// <param name="context">
@@ -55,7 +55,7 @@ internal class MultitenantRequestServicesMiddleware
         {
             var serviceScopeFactoryAdapter = _multitenantContainer.Resolve<MultitenantServiceScopeFactoryAdapter>();
 
-// The feature will be disposed at the end of the response, not here.
+            // The feature will be disposed at the end of the response, not here.
 #pragma warning disable CA2000
             var autofacFeature = new RequestServicesFeature(context, serviceScopeFactoryAdapter.Factory);
 #pragma warning restore
