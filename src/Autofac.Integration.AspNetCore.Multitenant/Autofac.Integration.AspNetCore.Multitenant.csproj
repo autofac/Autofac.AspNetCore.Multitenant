@@ -1,8 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <!-- VersionPrefix patched by AppVeyor -->
-    <VersionPrefix>0.0.1</VersionPrefix>
     <!-- Assembly metadata -->
     <AssemblyName>Autofac.Integration.AspNetCore.Multitenant</AssemblyName>
     <AssemblyTitle>Autofac.Integration.AspNetCore.Multitenant</AssemblyTitle>
