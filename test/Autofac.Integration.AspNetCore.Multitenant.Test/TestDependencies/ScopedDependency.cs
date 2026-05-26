@@ -10,5 +10,8 @@ public class ScopedDependency : IScopedDependency
         Id = Guid.NewGuid();
     }
 
-    public Guid Id { get; }
+    public Guid Id
+    {
+        get;
+    }
 }

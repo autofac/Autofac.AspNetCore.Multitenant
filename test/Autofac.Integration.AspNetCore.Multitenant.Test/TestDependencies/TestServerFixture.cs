@@ -15,9 +15,9 @@ namespace Autofac.Integration.AspNetCore.Multitenant.Test.TestDependencies;
 
 public class TestServerFixture : IDisposable
 {
-    private bool _disposedValue;
-
     private readonly TestServer _server;
+
+    private bool _disposedValue;
 
     public TestServerFixture()
     {

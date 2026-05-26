@@ -22,5 +22,8 @@ public class MultitenantServiceScopeFactoryAdapter
     /// <summary>
     /// Gets the <see cref="IServiceScopeFactory"/> for a specific tenant.
     /// </summary>
-    public IServiceScopeFactory Factory { get; }
+    public IServiceScopeFactory Factory
+    {
+        get;
+    }
 }

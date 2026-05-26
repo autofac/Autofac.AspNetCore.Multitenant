@@ -6,7 +6,7 @@ namespace Sandbox;
 /// <summary>
 /// Entry pont for the ASP.NET sandbox application.
 /// </summary>
-public static class Program
+internal static class Program
 {
     /// <summary>
     /// Primary method for execution of the sandbox application.
@@ -27,6 +27,6 @@ public static class Program
             .ConfigureWebHostDefaults(webHostBuilder => webHostBuilder.UseStartup<Startup>())
             .Build();
 
-        await host.RunAsync();
+        await host.RunAsync().ConfigureAwait(false);
     }
 }

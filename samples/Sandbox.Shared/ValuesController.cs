@@ -31,7 +31,10 @@ public class ValuesController : ControllerBase
     /// tenant-specific lifetime scope based on the <c>tenant</c> query string
     /// parameter.
     /// </value>
-    public IDependency Dependency { get; }
+    public IDependency Dependency
+    {
+        get;
+    }
 
     /// <summary>
     /// Gets the ID of the resolved dependency.

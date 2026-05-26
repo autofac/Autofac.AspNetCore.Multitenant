@@ -15,8 +15,10 @@ public class MultitenantRequestServicesMiddlewareTests
     [Fact]
     public async Task Invoke_DoesNotOverrideExistingHttpContextOnAccessor()
     {
-        var accessor = new SimpleHttpAccessor();
-        accessor.HttpContext = new DefaultHttpContext();
+        var accessor = new SimpleHttpAccessor
+        {
+            HttpContext = new DefaultHttpContext(),
+        };
         var next = new RequestDelegate(ctx => Task.CompletedTask);
         var context = CreateContext();
 
@@ -92,7 +94,10 @@ public class MultitenantRequestServicesMiddlewareTests
 
     private sealed class SimpleHttpAccessor : IHttpContextAccessor
     {
-        public HttpContext? HttpContext { get; set; }
+        public HttpContext? HttpContext
+        {
+            get; set;
+        }
     }
 
     private sealed class TestHttpResponseFeature : HttpResponseFeature

@@ -17,5 +17,8 @@ public sealed class TenantAccessorDependency : ITenantAccessor
         }
     }
 
-    public string? CurrentTenant { get; }
+    public string? CurrentTenant
+    {
+        get;
+    }
 }
