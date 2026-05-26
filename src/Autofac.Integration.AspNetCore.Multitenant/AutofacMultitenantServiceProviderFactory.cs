@@ -76,12 +76,7 @@ public class AutofacMultitenantServiceProviderFactory : IServiceProviderFactory<
             })
             .InstancePerTenant();
 
-        multitenantContainer = _multitenantContainerAccessor(containerBuilder.Build());
-
-        if (multitenantContainer == null)
-        {
-            throw new InvalidOperationException(Resources.NoMultitenantContainerAvailable);
-        }
+        multitenantContainer = _multitenantContainerAccessor(containerBuilder.Build()) ?? throw new InvalidOperationException(Resources.NoMultitenantContainerAvailable);
 
         return new AutofacServiceProvider(multitenantContainer);
     }

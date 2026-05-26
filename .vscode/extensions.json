@@ -1,8 +1,8 @@
 {
   "recommendations": [
     "davidanson.vscode-markdownlint",
+    "dnut.rewrap-revived",
     "editorconfig.editorconfig",
-    "ms-dotnettools.csdevkit",
-    "stkb.rewrap"
+    "ms-dotnettools.csdevkit"
   ]
 }

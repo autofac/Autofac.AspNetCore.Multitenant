@@ -13,8 +13,8 @@ namespace Sandbox;
 /// </summary>
 public class QueryStringTenantIdentificationStrategy : ITenantIdentificationStrategy
 {
-    private static readonly Action<ILogger, object?, Exception?> LogTenantIdentified = LoggerMessage.Define<object?>(LogLevel.Information, new EventId(0), "Identified tenant: {Tenant}");
-    private static readonly Action<ILogger, Exception?> LogNoTenantIdentity = LoggerMessage.Define(LogLevel.Warning, new EventId(1), "Unable to identify tenant from query string. Falling back to default.");
+    private static readonly Action<ILogger, object?, Exception?> _logTenantIdentified = LoggerMessage.Define<object?>(LogLevel.Information, new EventId(0), "Identified tenant: {Tenant}");
+    private static readonly Action<ILogger, Exception?> _logNoTenantIdentity = LoggerMessage.Define(LogLevel.Warning, new EventId(1), "Unable to identify tenant from query string. Falling back to default.");
     private readonly ILogger<QueryStringTenantIdentificationStrategy> _logger;
     private readonly IHttpContextAccessor _accessor;
 
@@ -65,15 +65,15 @@ public class QueryStringTenantIdentificationStrategy : ITenantIdentificationStra
             return tenantId != null;
         }
 
-        if (context.Request.Query.TryGetValue("tenant", out StringValues tenantValues))
+        if (context.Request.Query.TryGetValue("tenant", out var tenantValues))
         {
             tenantId = tenantValues[0];
             context.Items["_tenantId"] = tenantId;
-            LogTenantIdentified(_logger, tenantId, null);
+            _logTenantIdentified(_logger, tenantId, null);
             return true;
         }
 
-        LogNoTenantIdentity(_logger, null);
+        _logNoTenantIdentity(_logger, null);
         tenantId = null;
         context.Items["_tenantId"] = null;
         return false;

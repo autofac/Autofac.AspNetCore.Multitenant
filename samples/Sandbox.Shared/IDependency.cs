@@ -15,5 +15,8 @@ public interface IDependency
     /// A <see cref="string"/> that can be used to illustrate which dependency
     /// is being resolved by a given tenant.
     /// </value>
-    string Id { get; }
+    string Id
+    {
+        get;
+    }
 }

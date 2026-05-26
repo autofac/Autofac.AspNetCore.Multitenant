@@ -65,7 +65,7 @@ internal class MultitenantRequestServicesMiddleware
             existingFeature = context.Features.Get<IServiceProvidersFeature>()!;
             context.Features.Set<IServiceProvidersFeature>(autofacFeature);
 
-            await _next.Invoke(context);
+            await _next.Invoke(context).ConfigureAwait(false);
         }
         finally
         {

@@ -28,16 +28,16 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sandbox.Shared", "samples\Sandbox.Shared\Sandbox.Shared.csproj", "{C1C581D6-57C2-4448-BF83-59C39CED7ABC}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "build", "build", "{29F190E3-F654-446C-B226-2B9B772BDCDC}"
-ProjectSection(SolutionItems) = preProject
-	build\Analyzers.ruleset = build\Analyzers.ruleset
-	build\Autofac.Build.psd1 = build\Autofac.Build.psd1
-	build\Autofac.Build.psm1 = build\Autofac.Build.psm1
-	build\CodeAnalysisDictionary.xml = build\CodeAnalysisDictionary.xml
-	build\icon.png = build\icon.png
-	build\stylecop.json = build\stylecop.json
-EndProjectSection
+	ProjectSection(SolutionItems) = preProject
+		build\Analyzers.ruleset = build\Analyzers.ruleset
+		build\Autofac.Build.psd1 = build\Autofac.Build.psd1
+		build\Autofac.Build.psm1 = build\Autofac.Build.psm1
+		build\CodeAnalysisDictionary.xml = build\CodeAnalysisDictionary.xml
+		build\icon.png = build\icon.png
+		build\stylecop.json = build\stylecop.json
+	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sandbox.AspNetCore6", "samples\Sandbox.AspNetCore6\Sandbox.AspNetCore6.csproj", "{B64B6D62-AD07-49BE-AF65-3E4C92284AD5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sandbox.AspNetCore10", "samples\Sandbox.AspNetCore10\Sandbox.AspNetCore10.csproj", "{B64B6D62-AD07-49BE-AF65-3E4C92284AD5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

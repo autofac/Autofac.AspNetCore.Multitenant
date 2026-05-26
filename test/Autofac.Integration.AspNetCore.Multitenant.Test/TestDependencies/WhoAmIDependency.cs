@@ -10,5 +10,8 @@ public sealed class WhoAmIDependency
         Id = id;
     }
 
-    public string Id { get; }
+    public string Id
+    {
+        get;
+    }
 }

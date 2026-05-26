@@ -7,7 +7,10 @@ namespace Autofac.Integration.AspNetCore.Multitenant.Test.TestDependencies;
 
 public sealed class ManualTenantIdentificationStrategy : ITenantIdentificationStrategy
 {
-    public object? TenantId { get; set; }
+    public object? TenantId
+    {
+        get; set;
+    }
 
     public bool TryIdentifyTenant(out object tenantId)
     {

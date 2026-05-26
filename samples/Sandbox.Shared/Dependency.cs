@@ -10,7 +10,7 @@ namespace Sandbox;
 /// </summary>
 public sealed class Dependency : IDependency, IDisposable
 {
-    private static readonly Action<ILogger, string, Exception?> LogDisposal = LoggerMessage.Define<string>(LogLevel.Information, new EventId(0), "Disposing dependency '{Id}'.");
+    private static readonly Action<ILogger, string, Exception?> _logDisposal = LoggerMessage.Define<string>(LogLevel.Information, new EventId(0), "Disposing dependency '{Id}'.");
 
     private readonly ILogger<Dependency> _logger;
 
@@ -33,7 +33,10 @@ public sealed class Dependency : IDependency, IDisposable
     /// A <see cref="string"/> that can be used to illustrate which dependency
     /// is being resolved by a given tenant.
     /// </value>
-    public string Id { get; set; }
+    public string Id
+    {
+        get; set;
+    }
 
     /// <summary>
     /// Disposes the component. This will be called when the owning lifetime
@@ -41,6 +44,6 @@ public sealed class Dependency : IDependency, IDisposable
     /// </summary>
     public void Dispose()
     {
-        LogDisposal(_logger, Id, null);
+        _logDisposal(_logger, Id, null);
     }
 }
